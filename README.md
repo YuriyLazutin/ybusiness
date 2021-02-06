@@ -1,2 +1,2 @@
 # ybusiness
-Corporate environment for manage your business
+A corporate environment to manage your business
