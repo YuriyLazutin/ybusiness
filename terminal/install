@@ -1,0 +1,27 @@
+#!/bin/bash
+# This script will build and install YBusiness Terminal
+
+# Author: Yuriy Lazutin
+# Site: https://github.com/YuriyLazutin
+# Location: Tomsk, Siberia
+# Creation: 2021-feb-25
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+export YBUSINESS_HOME="/opt/ybusiness"
+export LBIN="/usr/local/bin"
+
+# Create
+#	.qmake.stash
+#	Makefile
+qmake ybusiness.pro -spec linux-g++
+
+# Create
+#	show-message/Makefile
+make -f Makefile qmake_all
+
+# Create moc and object files
+make -j8
+
+sudo mkdir -p "${YBUSINESS_HOME}"
