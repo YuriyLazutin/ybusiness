@@ -1,32 +1,25 @@
-# Prerequisites
-*.d
+# local project settings
+ybusiness.pro.user
+
+# directories
+terminal/Debug
+terminal/Release
+terminal/Profile
 
 # Compiled Object files
-*.slo
-*.lo
 *.o
-*.obj
 
-# Precompiled Headers
-*.gch
-*.pch
+# Executables
+
 
 # Compiled Dynamic libraries
 *.so
-*.dylib
-*.dll
 
-# Fortran module files
-*.mod
-*.smod
+# Backup css, text and html files
+*.css~
+*.html~
+*.text~
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# autosaves
+*.autosave
 
-# Executables
-*.exe
-*.out
-*.app
