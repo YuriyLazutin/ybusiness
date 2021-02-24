@@ -14,7 +14,7 @@ body {
 	width: 100%;	
 	background-color: rgb(130, 170, 180);
 	background: radial-gradient(at 50% 50% , rgb(160, 170, 180), rgb(130, 170, 180));
-	color: rgb(72, 41, 40);
+	color: #233D23;
 	text-shadow: 1px 1px 0px rgb(0, 0, 0), 0 0 1em rgb(148, 223, 230);
 }
 
@@ -94,7 +94,7 @@ footer {
 
 .letter {
   font-family: 'YBusiness-font';
-  color: red;
+  color: #085208;
   font-size: 2em;
   text-shadow: 1 1 1em rgb(0, 0, 0);
 }
