@@ -9,6 +9,8 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-echo "Installing empty database (level zero)"
-cd ./rollpacks/000000000000
-source ./install
+source ./conf
+# env | sort > conf.env
+source ./checkcfg
+# env | sort > checkcfg.env
+sudo ./root

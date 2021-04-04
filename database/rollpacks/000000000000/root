@@ -1,0 +1,39 @@
+#!/bin/bash
+# This script will add new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-mar-10
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source conf
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+# check for zero UID
+echo -n "Check current user: "
+RUID=$( /usr/bin/id | awk -F\( '{print $1}' | awk -F= '{print $2}' )
+if [ ${RUID} -eq 0 ]; then
+  echo -e "\033[1;32mDone\033[0m"
+else
+  echo -e "\033[1;31mFailed\033[0m"
+  echo "You must be logged in as user with UID as zero (e.g. root user) to run this script."
+  echo "Log in as user with UID as zero (e.g. root user) and restart this script."
+  exit 1
+fi
+
+# You should Add this entry in the /etc/oratab: ${ORACLE_SID}:${ORACLE_HOME}:Y
+grep "${ORACLE_SID}:${ORACLE_HOME}" /etc/oratab &> /dev/null
+if [ $? -ne 0 ]; then
+  echo "${ORACLE_SID}:${ORACLE_HOME}:Y" >> /etc/oratab
+  PrintInfo "Adding ${ORACLE_SID} into /etc/oratab: "
+fi

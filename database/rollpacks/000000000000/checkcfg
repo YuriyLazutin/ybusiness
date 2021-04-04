@@ -1,0 +1,277 @@
+#!/bin/bash
+
+# This script will check configuration parameters
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-mar-11
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function SetDefault {
+  if [ -z "$( eval echo \${$1})" ]; then
+    export ${1}="${2}"
+  fi
+}
+
+SetDefault "ORACLE_OWNER" "oracle"
+SetDefault "ORACLE_BASE" "/opt/Oracle"
+SetDefault "ORACLE_HOME" "/opt/Oracle/server"
+SetDefault "ORACLE_SID" "ydata" # ! Not more than 8 characters
+SetDefault "ORACLE_UNQNAME" "${ORACLE_SID}" # Need for Enterprice Manager start
+# SetDefault "DB_UNIQUE_NAME" "${ORACLE_SID}" # This variable used in dbca
+SetDefault "LISTENER_NAME" "LISTENER"
+SetDefault "LOGDIR" "${ORACLE_BASE}/logs"
+SetDefault "INIT_ORA" "$( pwd )/init.ora"
+SetDefault "DB_DOMAIN" ""
+SetDefault "DB_BLOCK_SIZE" "8192" # 8 Kb
+SetDefault "DB_OPEN_CURSORS" "300"
+SetDefault "DB_PROCESSES" "150"
+
+# If we will use Automatic Memory Managent, we should setup only DB_MEMORY_TARGET variable (and accordingly memory_target= in init.ora)
+# This memory will used for both SGA and PGA
+# If we will use Manual Memory Management, we should setup both DB_SGA_TARGET and DB_PGA_AGGREGATE_TARGET,  but not DB_MEMORY_TARGET
+if [ -z "${DB_SGA_TARGET}" ] && [ -z "${DB_PGA_AGGREGATE_TARGET}" ]; then
+  SetDefault "DB_MEMORY_TARGET" "17179869184" # 16 Gb (16 * 1024 * 1024 * 1024), 12 Gb SGA + 4 Gb PGA
+else
+  SetDefault "DB_SGA_TARGET" "12884901888" # 12 Gb (12 * 1024 * 1024 * 1024)
+  SetDefault "DB_PGA_AGGREGATE_TARGET" "4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
+fi
+
+# Install options
+
+  # This option will allow you to manage your database via web interface
+  # Local listener should be configured and started
+  # No additional database options are needed
+  # SYSMAN and DBSNMP password needed
+  # Runs emRepository.sql
+  # On post database creation step we need to execute ${ORACLE_HOME}/bin/emca -config ...
+  SetDefault "DB_INSTALL_ENTERPRICE_MANAGER" "N"
+
+  # Enables Optimizer statistics collection and proactive advisor reports
+  # If you want to disable this option, you need to run following command on post database creation step
+  # execute DBMS_AUTO_TASK_ADMIN.disable();
+  SetDefault "DB_ENABLE_AUTOMATIC_MAINTENANCE_TASKS" "N"
+
+  # Enable fast recovery area
+  # mkdir -p /opt/Oracle/fast_recovery_area
+  # mkdir -p /opt/Oracle/fast_recovery_area/db
+
+  # Changes in init.ora
+  # ###########################################
+  # # File Configuration
+  # ###########################################
+  # control_files=("/opt/Oracle/oradata/db/control01.ctl", "/opt/Oracle/fast_recovery_area/db/control02.ctl")
+  # db_recovery_file_dest="/opt/Oracle/fast_recovery_area"
+  # db_recovery_file_dest_size=4294967296
+  function EnableFastRecoveryArea {
+    SetDefault "DB_ENABLE_FAST_RECOVERY_AREA" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      export DB_ENABLE_FAST_RECOVERY_AREA="Y"
+      SetDefault "DB_FAST_RECOVERY_AREA_SIZE" "4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
+    elif [ "${1^^}" == "N" ]; then
+      export DB_ENABLE_FAST_RECOVERY_AREA="N"
+      unset DB_FAST_RECOVERY_AREA_SIZE
+    fi
+  }
+
+  EnableFastRecoveryArea "${DB_ENABLE_FAST_RECOVERY_AREA}"
+
+  # Enable archive log mode
+  # fast recovery area should be enabled or you need to specify archivelog destinations (not implemented in my scripts)
+  
+  # Changes in init.ora
+  # ###########################################
+  # # Archive
+  # ###########################################
+  # log_archive_format=%t_%s_%r.dbf
+  
+  # Additions on post database creation step
+  # shutdown immediate;
+  # connect "SYS"/"&&sysPassword" as SYSDBA
+  # startup mount pfile="/opt/Oracle/admin/db/scripts/init.ora";
+  # alter database archivelog;
+  # alter database open;
+  SetDefault "DB_ENABLE_ARCHIVELOG" "N"
+
+  if [ "${DB_ENABLE_ARCHIVELOG^^}" == "Y" ] && [ "${DB_ENABLE_FAST_RECOVERY_AREA^^}" == "N" ]; then
+    echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_ARCHIVELOG=Y, but DB_ENABLE_FAST_RECOVERY_AREA=N. Enforce DB_ENABLE_FAST_RECOVERY_AREA to Y"
+    EnableFastRecoveryArea "Y"
+  fi
+
+# Standart database components
+
+  # runs JServer.sql
+  function EnableJServer {
+    SetDefault "DB_ENABLE_JVM" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      export DB_ENABLE_JVM="Y"
+    fi
+  }
+
+  EnableJServer "${DB_ENABLE_JVM}"
+
+  # Changes in init.ora
+  # ###########################################
+  # # Shared Server
+  # ###########################################
+  # dispatchers="(PROTOCOL=TCP) (SERVICE=dbXDB)"
+  # runs xdb_protocol.sql
+  function EnableXMLDB {
+    SetDefault "DB_ENABLE_XMLDB" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      export DB_ENABLE_XMLDB="Y"
+    fi
+  }
+
+  EnableXMLDB "${DB_ENABLE_XMLDB}"
+
+  # Needed DB_ENABLE_JVM="Y" and DB_ENABLE_XMLDB="Y"
+  # runs:
+  #   JServer.sql
+  #   xdb_protocol.sql
+  #   ordinst.sql
+  #   interMedia.sql
+  function EnableMultimedia {
+    SetDefault "DB_ENABLE_MULTIMEDIA" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_MULTIMEDIA=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        EnableJServer "Y"
+      fi
+
+      if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_MULTIMEDIA=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        EnableXMLDB "Y"
+      fi
+
+      export DB_ENABLE_MULTIMEDIA="Y"
+    fi
+  }
+
+  EnableMultimedia "${DB_ENABLE_MULTIMEDIA}"
+
+  # Needed DB_ENABLE_XMLDB="Y"
+  # runs:
+  #   xdb_protocol.sql
+  #   apex.sql
+ function EnableApex {
+    SetDefault "DB_ENABLE_APEX" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_APEX=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        EnableXMLDB "Y"
+      fi
+
+      export DB_ENABLE_APEX="Y"
+    fi
+  }
+
+  EnableApex "${DB_ENABLE_APEX}"
+
+# Extended database components
+
+  # Text
+  # runs context.sql
+  SetDefault "DB_ENABLE_TEXT" "N"
+
+  # Needed DB_ENABLE_JVM="Y"
+  # runs:
+  #   JServer.sql
+  #   cwmlite.sql
+  function EnableOLAP {
+    SetDefault "DB_ENABLE_OLAP" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+
+      if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_OLAP=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        EnableJServer "Y"
+      fi
+
+      export DB_ENABLE_OLAP="Y"
+    fi
+  }
+
+  EnableOLAP "${DB_ENABLE_OLAP}"
+
+  # Needed DB_ENABLE_JVM="Y", DB_ENABLE_XMLDB="Y", DB_ENABLE_MULTIMEDIA="Y", DB_ENABLE_OLAP="Y"
+  # runs:
+  #   JServer.sql
+  #   xdb_protocol.sql
+  #   ordinst.sql
+  #   interMedia.sql
+  #   cwmlite.sql
+  #   owb.sql
+  function EnableWB {
+    SetDefault "DB_ENABLE_WAREHOUSE_BUILDER" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        EnableJServer "Y"
+      fi
+
+      if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        EnableXMLDB "Y"
+      fi
+
+      if [ "${DB_ENABLE_MULTIMEDIA^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_MULTIMEDIA=N. Enforce DB_ENABLE_MULTIMEDIA to Y"
+        EnableMultimedia "Y"
+      fi
+
+      if [ "${DB_ENABLE_OLAP^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_OLAP=N. Enforce DB_ENABLE_OLAP to Y"
+        EnableOLAP "Y"
+      fi
+
+      export DB_ENABLE_WAREHOUSE_BUILDER="Y"
+    fi
+  }
+
+  EnableWB "${DB_ENABLE_WAREHOUSE_BUILDER}"
+
+  # Needed DB_ENABLE_JVM="Y", DB_ENABLE_XMLDB="Y", DB_ENABLE_MULTIMEDIA="Y"
+  # runs:
+  #   JServer.sql
+  #   xdb_protocol.sql
+  #   ordinst.sql
+  #   interMedia.sql
+  #   spatial.sql
+  function EnableSpatial {
+    SetDefault "DB_ENABLE_SPATIAL" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_SPATIAL=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        EnableJServer "Y"
+      fi
+
+      if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_SPATIAL=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        EnableXMLDB "Y"
+      fi
+
+      if [ "${DB_ENABLE_MULTIMEDIA^^}" == "N" ]; then
+        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_SPATIAL=Y, but DB_ENABLE_MULTIMEDIA=N. Enforce DB_ENABLE_MULTIMEDIA to Y"
+        EnableMultimedia "Y"
+      fi
+
+      export DB_ENABLE_SPATIAL="Y"
+    fi
+  }
+
+  EnableSpatial "${DB_ENABLE_SPATIAL}"
+
+
+  # This parts is not implemented
+  # SetDefault "DB_ENABLE_LABEL_SECURITY" "N"
+  # SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
