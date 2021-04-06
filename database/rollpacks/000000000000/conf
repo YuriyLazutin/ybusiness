@@ -37,7 +37,7 @@ export DB_INSTALL_ENTERPRICE_MANAGER="N"
 # Enables Optimizer statistics collection and proactive advisor reports
 export DB_ENABLE_AUTOMATIC_MAINTENANCE_TASKS="N"
 # Enable fast recovery area
-export DB_ENABLE_FAST_RECOVERY_AREA="Y"
+export DB_ENABLE_FAST_RECOVERY_AREA="N"
 export DB_FAST_RECOVERY_AREA_SIZE="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
 # Enable archive log mode
 export DB_ENABLE_ARCHIVELOG="N"
@@ -58,7 +58,7 @@ export DB_ENABLE_TEXT="N"
 # OLAP
 export DB_ENABLE_OLAP="N"
 # Warehouse Builder
-export DB_ENABLE_WAREHOUSE_BUILDER="Y"
+export DB_ENABLE_WAREHOUSE_BUILDER="N"
 # Spatial
 export DB_ENABLE_SPATIAL="N"
 
