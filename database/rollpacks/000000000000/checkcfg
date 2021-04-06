@@ -26,6 +26,7 @@ SetDefault "ORACLE_SID" "ydata" # ! Not more than 8 characters
 SetDefault "ORACLE_UNQNAME" "${ORACLE_SID}" # Need for Enterprice Manager start
 # SetDefault "DB_UNIQUE_NAME" "${ORACLE_SID}" # This variable used in dbca
 SetDefault "LISTENER_NAME" "LISTENER"
+SetDefault "LISTENER_PORT" "1521"
 SetDefault "LOGDIR" "${ORACLE_BASE}/logs"
 SetDefault "INIT_ORA" "$( pwd )/init.ora"
 SetDefault "DB_DOMAIN" ""

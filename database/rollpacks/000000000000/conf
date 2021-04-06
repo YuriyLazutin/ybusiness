@@ -16,6 +16,7 @@ export ORACLE_SID="ydata" # ! Not more than 8 characters
 export ORACLE_UNQNAME=${ORACLE_SID} # Need for Enterprice Manager start
 # export DB_UNIQUE_NAME=${ORACLE_SID} # This variable used in dbca
 export LISTENER_NAME="LISTENER"
+export LISTENER_PORT="1521"
 export LOGDIR="${ORACLE_BASE}/logs"
 export INIT_ORA="$( pwd )/init.ora"
 export DB_DOMAIN=""

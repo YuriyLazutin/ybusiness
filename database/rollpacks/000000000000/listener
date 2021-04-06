@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# This script will configure new listener for ybusiness software.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-07
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+LISTENER_CFG="$( pwd )/listener.cfg"
+
+# check listener status
+echo -n "Checking listener. \"${LISTENER_NAME}\" is exists?: "
+lsnrctl status "${LISTENER_NAME}" | grep "TNS-01101: Could not find service name" &> /dev/null
+if [ $? -ne 0 ]; then
+  echo -e "\033[1;32mAlready exists\033[0m"
+  CREATE_NEW_LISTENER="N"
+else
+  echo -e "\033[1;31mNot Found\033[0m"
+  CREATE_NEW_LISTENER="Y"
+fi
+
+if [ "${CREATE_NEW_LISTENER^^}" == "Y" ]; then
+  # creating responce file
+  echo "[GENERAL]
+RESPONSEFILE_VERSION=\"11.2\"
+CREATE_TYPE=\"CUSTOM\"
+SHOW_GUI=false
+LOG_FILE=\"\"${LOGDIR}/${ORACLE_SID}/netca.log\"\"
+
+[oracle.net.ca]
+INSTALLED_COMPONENTS={\"server\",\"net8\",\"javavm\"}
+INSTALL_TYPE=\"\"custom\"\"
+LISTENER_NUMBER=1
+LISTENER_NAMES={\"${LISTENER_NAME}\"}
+LISTENER_PROTOCOLS={\"TCP;${LISTENER_PORT}\"}
+LISTENER_START=\"\"${LISTENER_NAME}\"\"
+NAMING_METHODS={\"TNSNAMES\",\"ONAMES\",\"HOSTNAME\"}
+NSN_NUMBER=1
+NSN_NAMES={\"EXTPROC_CONNECTION_DATA\"}
+NSN_SERVICE={\"PLSExtProc\"}
+NSN_PROTOCOLS={\"TCP;HOSTNAME;${LISTENER_PORT}\"}
+" > "${LISTENER_CFG}"
+  PrintInfo "Creat responce file"
+
+  # running netca in silent mode
+  netca -silent -responsefile "${LISTENER_CFG}" &> /dev/null
+  PrintInfo "Create new listener \"${LISTENER_NAME}\""
+fi
+
+# Check "the listener is running?"
+echo -n "Checking listener. \"${LISTENER_NAME}\" is running?: "
+lsnrctl status "${LISTENER_NAME}" | grep -E "TNS-12541: TNS:no listener|TNS-12560: TNS:protocol adapter error|TNS-00511: No listener" &> /dev/null
+if [ $? -ne 0 ]; then
+  lsnrctl status "${LISTENER_NAME}" | grep "Start Date" &> /dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mRunning\033[0m"
+  else
+    echo -e "\033[1;31m???\033[0m"
+  fi
+else
+  echo -e "\033[1;31mStopped\033[0m"
+  # Running listener
+  lsnrctl start "${LISTENER_NAME}" &> /dev/null
+  PrintInfo "Run listener \"${LISTENER_NAME}\": "
+fi
