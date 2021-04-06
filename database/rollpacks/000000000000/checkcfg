@@ -9,6 +9,10 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
+function PrintWarning {
+  echo -e "[\033[33m Warning! \033[0m] ${1}"
+}
+
 function SetDefault {
   if [ -z "$( eval echo \${$1})" ]; then
     export ${1}="${2}"
@@ -56,13 +60,13 @@ fi
 
   # Enable fast recovery area
   # mkdir -p /opt/Oracle/fast_recovery_area
-  # mkdir -p /opt/Oracle/fast_recovery_area/db
+  # mkdir -p /opt/Oracle/fast_recovery_area/${ORACLE_SID}
 
   # Changes in init.ora
   # ###########################################
   # # File Configuration
   # ###########################################
-  # control_files=("/opt/Oracle/oradata/db/control01.ctl", "/opt/Oracle/fast_recovery_area/db/control02.ctl")
+  # control_files=("/opt/Oracle/oradata/${ORACLE_SID}/control01.ctl", "/opt/Oracle/fast_recovery_area/${ORACLE_SID}/control02.ctl")
   # db_recovery_file_dest="/opt/Oracle/fast_recovery_area"
   # db_recovery_file_dest_size=4294967296
   function EnableFastRecoveryArea {
@@ -73,6 +77,9 @@ fi
       SetDefault "DB_FAST_RECOVERY_AREA_SIZE" "4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
     elif [ "${1^^}" == "N" ]; then
       export DB_ENABLE_FAST_RECOVERY_AREA="N"
+    fi
+
+    if [ "${DB_ENABLE_FAST_RECOVERY_AREA^^}" == "N" ]; then
       unset DB_FAST_RECOVERY_AREA_SIZE
     fi
   }
@@ -91,13 +98,13 @@ fi
   # Additions on post database creation step
   # shutdown immediate;
   # connect "SYS"/"&&sysPassword" as SYSDBA
-  # startup mount pfile="/opt/Oracle/admin/db/scripts/init.ora";
+  # startup mount pfile="/opt/Oracle/admin/${ORACLE_SID}/scripts/init.ora";
   # alter database archivelog;
   # alter database open;
   SetDefault "DB_ENABLE_ARCHIVELOG" "N"
 
   if [ "${DB_ENABLE_ARCHIVELOG^^}" == "Y" ] && [ "${DB_ENABLE_FAST_RECOVERY_AREA^^}" == "N" ]; then
-    echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_ARCHIVELOG=Y, but DB_ENABLE_FAST_RECOVERY_AREA=N. Enforce DB_ENABLE_FAST_RECOVERY_AREA to Y"
+    PrintWarning "DB_ENABLE_ARCHIVELOG=Y, but DB_ENABLE_FAST_RECOVERY_AREA=N. Enforce DB_ENABLE_FAST_RECOVERY_AREA to Y"
     EnableFastRecoveryArea "Y"
   fi
 
@@ -118,7 +125,7 @@ fi
   # ###########################################
   # # Shared Server
   # ###########################################
-  # dispatchers="(PROTOCOL=TCP) (SERVICE=dbXDB)"
+  # dispatchers="(PROTOCOL=TCP) (SERVICE=${ORACLE_SID}XDB)"
   # runs xdb_protocol.sql
   function EnableXMLDB {
     SetDefault "DB_ENABLE_XMLDB" "N"
@@ -141,12 +148,12 @@ fi
 
     if [ "${1^^}" == "Y" ]; then
       if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_MULTIMEDIA=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        PrintWarning "DB_ENABLE_MULTIMEDIA=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
         EnableJServer "Y"
       fi
 
       if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_MULTIMEDIA=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        PrintWarning "DB_ENABLE_MULTIMEDIA=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
         EnableXMLDB "Y"
       fi
 
@@ -165,7 +172,7 @@ fi
 
     if [ "${1^^}" == "Y" ]; then
       if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_APEX=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        PrintWarning "DB_ENABLE_APEX=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
         EnableXMLDB "Y"
       fi
 
@@ -191,7 +198,7 @@ fi
     if [ "${1^^}" == "Y" ]; then
 
       if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_OLAP=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        PrintWarning "DB_ENABLE_OLAP=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
         EnableJServer "Y"
       fi
 
@@ -214,22 +221,22 @@ fi
 
     if [ "${1^^}" == "Y" ]; then
       if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        PrintWarning "DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
         EnableJServer "Y"
       fi
 
       if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        PrintWarning "DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
         EnableXMLDB "Y"
       fi
 
       if [ "${DB_ENABLE_MULTIMEDIA^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_MULTIMEDIA=N. Enforce DB_ENABLE_MULTIMEDIA to Y"
+        PrintWarning "DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_MULTIMEDIA=N. Enforce DB_ENABLE_MULTIMEDIA to Y"
         EnableMultimedia "Y"
       fi
 
       if [ "${DB_ENABLE_OLAP^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_OLAP=N. Enforce DB_ENABLE_OLAP to Y"
+        PrintWarning "DB_ENABLE_WAREHOUSE_BUILDER=Y, but DB_ENABLE_OLAP=N. Enforce DB_ENABLE_OLAP to Y"
         EnableOLAP "Y"
       fi
 
@@ -251,17 +258,17 @@ fi
 
     if [ "${1^^}" == "Y" ]; then
       if [ "${DB_ENABLE_JVM^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_SPATIAL=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
+        PrintWarning "DB_ENABLE_SPATIAL=Y, but DB_ENABLE_JVM=N. Enforce DB_ENABLE_JVM to Y"
         EnableJServer "Y"
       fi
 
       if [ "${DB_ENABLE_XMLDB^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_SPATIAL=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
+        PrintWarning "DB_ENABLE_SPATIAL=Y, but DB_ENABLE_XMLDB=N. Enforce DB_ENABLE_XMLDB to Y"
         EnableXMLDB "Y"
       fi
 
       if [ "${DB_ENABLE_MULTIMEDIA^^}" == "N" ]; then
-        echo -e "[ \033[1;31mWarning!\033[0m ] DB_ENABLE_SPATIAL=Y, but DB_ENABLE_MULTIMEDIA=N. Enforce DB_ENABLE_MULTIMEDIA to Y"
+        PrintWarning "DB_ENABLE_SPATIAL=Y, but DB_ENABLE_MULTIMEDIA=N. Enforce DB_ENABLE_MULTIMEDIA to Y"
         EnableMultimedia "Y"
       fi
 
