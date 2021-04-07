@@ -11,6 +11,19 @@
 
 source ./conf
 source ./checkcfg
+
+######################
+# Check current user #
+######################
+echo -n "Check current user: "
+if [ "$( whoami )" == "${ORACLE_OWNER}" ]; then
+  echo -e "\033[1;32mDone\033[0m"
+else
+  echo -e "\033[1;31mFailed\033[0m"
+  echo "This script should be executed under ${ORACLE_OWNER}!"
+  exit 1
+fi
+
 ./profile
 ./listener
 # sudo ./root
