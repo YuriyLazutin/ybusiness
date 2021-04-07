@@ -26,4 +26,5 @@ fi
 
 ./profile
 ./listener
+./mk-init.ora
 # sudo ./root

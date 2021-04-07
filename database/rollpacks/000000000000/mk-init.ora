@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# This script will create init.ora for ybusiness software.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+export INIT_ORA="${TMPDIR}/${ORACLE_SID}/init.ora"
+
+if [ -e "${INIT_ORA}" ]; then
+  rm "${INIT_ORA}"
+fi
+touch "${INIT_ORA}"
+
+echo "###########################################" >> "${INIT_ORA}"
+echo "#         init.ora for ybusiness          #" >> "${INIT_ORA}"
+echo "###########################################" >> "${INIT_ORA}"
+echo "" >> "${INIT_ORA}"
+
+if [ "${DB_ENABLE_ARCHIVELOG^^}" == "Y" ]; then
+  echo "# Archive" >> "${INIT_ORA}"
+  echo "log_archive_format=%t_%s_%r.dat" >> "${INIT_ORA}"
+fi
+
+echo "# Cache and I/O" >> "${INIT_ORA}"
+echo "db_block_size=${DB_BLOCK_SIZE}" >> "${INIT_ORA}"
+
+echo "# Cursors and Library Cache" >> "${INIT_ORA}"
+echo "open_cursors=${DB_OPEN_CURSORS}" >> "${INIT_ORA}"
+
+echo "# Database Identification" >> "${INIT_ORA}"
+echo "db_domain=\"${DB_DOMAIN}\"" >> "${INIT_ORA}"
+echo "db_name=\"${ORACLE_SID}\"" >> "${INIT_ORA}"
+
+echo "# File Configuration" >> "${INIT_ORA}"
+echo -n "control_files=(\"${ORACLE_BASE}/oradata/${ORACLE_SID}/${ORACLE_SID}.ctl\"" >> "${INIT_ORA}"
+if [ "${DB_ENABLE_FAST_RECOVERY_AREA^^}" == "Y" ]; then
+  echo -n ", \"${ORACLE_BASE}/fast_recovery_area/${ORACLE_SID}/${ORACLE_SID}.ctl\"" >> "${INIT_ORA}"
+fi
+echo ", \"${ORACLE_BASE}/oradata/${ORACLE_SID}/${ORACLE_SID}.ctl.bak\")" >> "${INIT_ORA}"
+
+if [ "${DB_ENABLE_FAST_RECOVERY_AREA^^}" == "Y" ]; then
+  echo "db_recovery_file_dest=\"${ORACLE_BASE}/fast_recovery_area\"" >> "${INIT_ORA}"
+  echo "db_recovery_file_dest_size=${DB_FAST_RECOVERY_AREA_SIZE}" >> "${INIT_ORA}"
+fi
+
+echo "# Miscellaneous" >> "${INIT_ORA}"
+echo "compatible=11.2.0.0.0" >> "${INIT_ORA}"
+echo "diagnostic_dest=\"${ORACLE_BASE}\"" >> "${INIT_ORA}"
+
+if [ ! -z "${DB_MEMORY_TARGET}" ]; then
+  echo "memory_target=${DB_MEMORY_TARGET}" >> "${INIT_ORA}"
+fi
+
+echo "# NLS" >> "${INIT_ORA}"
+echo "nls_language=\"AMERICAN\"" >> "${INIT_ORA}"
+echo "nls_territory=\"AMERICA\"" >> "${INIT_ORA}"
+
+echo "# Network Registration" >> "${INIT_ORA}"
+echo "local_listener=${LISTENER_NAME}" >> "${INIT_ORA}"
+
+echo "# Processes and Sessions" >> "${INIT_ORA}"
+echo "processes=${DB_PROCESSES}" >> "${INIT_ORA}"
+
+if [ -z "${DB_MEMORY_TARGET}" ]; then
+  echo "# SGA Memory" >> "${INIT_ORA}"
+  echo "sga_target=${DB_SGA_TARGET}" >> "${INIT_ORA}"
+  echo "# PGA (Sort, Hash Joins, Bitmap Indexes)" >> "${INIT_ORA}"
+  echo "pga_aggregate_target=${DB_PGA_AGGREGATE_TARGET}" >> "${INIT_ORA}"
+fi
+
+echo "# Security and Auditing" >> "${INIT_ORA}"
+echo "audit_file_dest=\"${ORACLE_BASE}/admin/${ORACLE_SID}/adump\"" >> "${INIT_ORA}"
+echo "audit_trail=db" >> "${INIT_ORA}"
+echo "remote_login_passwordfile=EXCLUSIVE" >> "${INIT_ORA}"
+
+echo "# Shared Server" >> "${INIT_ORA}"
+echo "dispatchers=\"(PROTOCOL=TCP) (SERVICE=${ORACLE_SID}XDB)\"" >> "${INIT_ORA}"
+
+echo "# System Managed Undo and Rollback Segments" >> "${INIT_ORA}"
+echo "undo_tablespace=UNDOTBS1" >> "${INIT_ORA}"
+
+echo -e "Creating init.ora: \033[1;32mDone\033[0m"
