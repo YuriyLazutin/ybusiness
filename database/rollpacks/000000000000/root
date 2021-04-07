@@ -36,4 +36,6 @@ grep "${ORACLE_SID}:${ORACLE_HOME}" /etc/oratab &> /dev/null
 if [ $? -ne 0 ]; then
   echo "${ORACLE_SID}:${ORACLE_HOME}:Y" >> /etc/oratab
   PrintInfo "Adding ${ORACLE_SID} into /etc/oratab: "
+else
+  echo -e "Check ${ORACLE_SID} in /etc/oratab: \033[1;32mAlready exists\033[0m"
 fi
