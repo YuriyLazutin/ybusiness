@@ -285,3 +285,7 @@ fi
   # This parts is not implemented
   # SetDefault "DB_ENABLE_LABEL_SECURITY" "N"
   # SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
+
+if [[ "${PATH}" != *"${ORACLE_HOME}/bin:"* ]]; then
+  export PATH="${ORACLE_HOME}/bin:${PATH}"
+fi
