@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# This script will configure user profile for ybusiness software.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-07
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+grep "# ${ORACLE_SID} settings (Start)" "${ORACLE_BASE}/.profile" &> /dev/null
+if [ $? -ne 0 ]; then
+
+  echo >> "${ORACLE_BASE}/.profile"
+  echo "# ${ORACLE_SID} settings (Start)" >> "${ORACLE_BASE}/.profile"
+
+  echo "export ORACLE_OWNER=\"${ORACLE_OWNER}\"" >> "${ORACLE_BASE}/.profile"
+  PrintInfo "Set the ORACLE_OWNER environment variable"
+
+  echo "export ORACLE_BASE=\"${ORACLE_BASE}\"" >> "${ORACLE_BASE}/.profile"
+  PrintInfo "Set the ORACLE_BASE environment variable"
+
+  echo "export ORACLE_HOME=\"${ORACLE_HOME}\"" >> "${ORACLE_BASE}/.profile"
+  PrintInfo "Set the ORACLE_HOME environment variable"
+
+  echo "export ORACLE_SID=\"${ORACLE_SID}\"" >> "${ORACLE_BASE}/.profile"
+  PrintInfo "Set the ORACLE_SID environment variable"
+
+  echo "export ORACLE_UNQNAME=\"${ORACLE_UNQNAME}\"" >> "${ORACLE_BASE}/.profile"
+  PrintInfo "Set the ORACLE_UNQNAME environment variable"
+
+  echo "# ${ORACLE_SID} settings (End)" >> "${ORACLE_BASE}/.profile"
+
+else
+  echo -e "[\033[33m Warning! \033[0m] ${ORACLE_BASE}/.profile already contains ${ORACLE_SID} settings section!"
+fi
