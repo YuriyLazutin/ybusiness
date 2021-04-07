@@ -10,10 +10,7 @@
 #          https://www.patreon.com/yuriylazutin
 
 source ./conf
-# env | sort > conf.env
 source ./checkcfg
-# env | sort > checkcfg.env
-# configure and start listener
+./profile
 ./listener
-# run root scripts (registed db in /etc/oratab)
-sudo ./root
+# sudo ./root

@@ -11,4 +11,10 @@
 
 echo "Installing empty database (level zero)"
 cd ./rollpacks/000000000000
-source ./install
+source ./conf
+source ./checkcfg
+source ./passwords
+
+echo "${ROOT_PASS}" | sudo -Su ${ORACLE_OWNER} "./install"
+echo "${ROOT_PASS}" | sudo -S sh -c "./root"
+
