@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2020-oct-16
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+
+# Examples
+#sudo mkdir -p ${ORACLE_HOME}
+#PrintInfo "Creating ORACLE_HOME directory (${ORACLE_HOME})"
+#sudo chown -R ${ORACLE_OWNER}:${ORACLE_GROUP} ${ORACLE_HOME}
+#PrintInfo "Changing ownership for ORACLE_HOME directory (${ORACLE_HOME})"
+#sudo chmod u=rwx,g=rx,o-rwx ${ORACLE_HOME}
+#PrintInfo "Changing access level for ORACLE_HOME directory (${ORACLE_HOME})"

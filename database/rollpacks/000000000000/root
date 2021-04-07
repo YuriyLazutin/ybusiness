@@ -9,15 +9,7 @@
 #          https://www.patreon.com/yuriylazutin
 
 source conf
-
-function PrintInfo {
-  if [ $? -eq 0 ]; then
-    result="\033[1;32mDone\033[0m"
-  else
-    result="\033[1;31mFailed\033[0m"
-  fi
-  echo -e "${1}: ${result}"
-}
+source ./print-info
 
 # check for zero UID
 echo -n "Check current user: "

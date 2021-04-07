@@ -9,14 +9,7 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-function PrintInfo {
-  if [ $? -eq 0 ]; then
-    result="\033[1;32mDone\033[0m"
-  else
-    result="\033[1;31mFailed\033[0m"
-  fi
-  echo -e "${1}: ${result}"
-}
+source ./print-info
 
 grep "# ${ORACLE_SID} settings (Start)" "${ORACLE_BASE}/.profile" &> /dev/null
 if [ $? -ne 0 ]; then
