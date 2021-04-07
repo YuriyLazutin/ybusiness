@@ -28,4 +28,5 @@ fi
 ./profile
 ./listener
 ./mk-init.ora
+./mk-passfile
 # sudo ./root

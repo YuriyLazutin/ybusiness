@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# This script will create oracle password file.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+./passwords "SYS"
+
+orapwd file="${ORACLE_HOME}/dbs/orapw${ORACLE_SID}" password="${SYS_PASS}" force=y
+PrintInfo "Creating password file: "
+
