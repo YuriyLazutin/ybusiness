@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# This script will create directories for ybusiness software.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function PrintInfo {
+  if [ $? -eq 0 ]; then
+    result="\033[1;32mDone\033[0m"
+  else
+    result="\033[1;31mFailed\033[0m"
+  fi
+  echo -e "${1}: ${result}"
+}
+
+OLD_UMASK=$( umask )
+umask 0027
+
+mkdir -p "${ORACLE_BASE}/admin/${ORACLE_SID}/adump"
+PrintInfo "Creating ${ORACLE_BASE}/admin/${ORACLE_SID}/adump: "
+mkdir -p "${ORACLE_BASE}/admin/${ORACLE_SID}/dpdump"
+PrintInfo "Creating ${ORACLE_BASE}/admin/${ORACLE_SID}/dpdump: "
+mkdir -p "${ORACLE_BASE}/admin/${ORACLE_SID}/pfile"
+PrintInfo "Creating ${ORACLE_BASE}/admin/${ORACLE_SID}/pfile: "
+
+mkdir -p "${ORACLE_BASE}/cfgtoollogs/dbca/${ORACLE_SID}"
+PrintInfo "Creating ${ORACLE_BASE}/cfgtoollogs/dbca/${ORACLE_SID}: "
+
+if [ "${DB_ENABLE_FAST_RECOVERY_AREA^^}" == "Y" ]; then
+  mkdir -p "${ORACLE_BASE}/fast_recovery_area/${ORACLE_SID}"
+  PrintInfo "Creating ${ORACLE_BASE}/fast_recovery_area/${ORACLE_SID}: "
+fi
+
+mkdir -p "${ORACLE_BASE}/oradata/${ORACLE_SID}"
+PrintInfo "Creating ${ORACLE_BASE}/oradata/${ORACLE_SID}: "
+
+mkdir -p "${ORACLE_BASE}/oradata/${ORACLE_SID}/${ORACLE_SID}"
+PrintInfo "Creating ${ORACLE_BASE}/oradata/${ORACLE_SID}/${ORACLE_SID}: "
+
+#mkdir -p "${ORACLE_HOME}/dbs/${ORACLE_SID}"
+#PrintInfo "Creating ${ORACLE_HOME}/dbs/${ORACLE_SID}: "
+
+mkdir -p "${LOGDIR}/${ORACLE_SID}"
+PrintInfo "Creating ${LOGDIR}/${ORACLE_SID}: "
+
+umask ${OLD_UMASK}
