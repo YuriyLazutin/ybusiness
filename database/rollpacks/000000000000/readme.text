@@ -1,5 +1,7 @@
 conf         - parameters for ybusiness installation
 checkcfg     - this script checks parameters from conf file, setup default values and enforce dependent parameters
-root         - this actions should be done under root user. It your oracle user is not sudoers, you will need to run this script manually under root user.
+profile      - this script configure user profile
+listener     - this script configure and start listener
+root         - registed db in /etc/oratab. This actions should be done under root user. It your oracle user is not sudoers, you will need to run this script manually under root user.
 install      - installation script
 readme.text  - this file
