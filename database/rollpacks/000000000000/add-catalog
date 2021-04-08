@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# This script will add catalog into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+source ./getpass "SYS"
+
+echo "Executing ${ORACLE_HOME}/rdbms/admin/catalog.sql"
+sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-catalog-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/catalog.sql.log append
+@${ORACLE_HOME}/rdbms/admin/catalog.sql;
+spool off
+
+exit
+EOF
+
+echo "Executing ${ORACLE_HOME}/rdbms/admin/catblock.sql"
+sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-catalog-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/catblock.sql.log append
+@${ORACLE_HOME}/rdbms/admin/catblock.sql;
+spool off
+
+exit
+EOF
+
+echo "Executing ${ORACLE_HOME}/rdbms/admin/catproc.sql"
+sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-catalog-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/catproc.sql.log append
+@${ORACLE_HOME}/rdbms/admin/catproc.sql;
+spool off
+
+exit
+EOF
+
+echo "Executing ${ORACLE_HOME}/rdbms/admin/catoctk.sql"
+sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-catalog-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/catoctk.sql.log append
+@${ORACLE_HOME}/rdbms/admin/catoctk.sql;
+spool off
+
+exit
+EOF
+
+echo "Executing ${ORACLE_HOME}/rdbms/admin/owminst.plb"
+sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-catalog-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/owminst.plb.log append
+@${ORACLE_HOME}/rdbms/admin/owminst.plb;
+spool off
+
+exit
+EOF
+
+PrintInfo "Installing catalog"

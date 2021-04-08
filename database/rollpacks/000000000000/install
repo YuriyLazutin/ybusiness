@@ -33,4 +33,5 @@ source ./mk-init.ora
 source ./mk-passfile
 source ./add-database
 source ./add-tablespaces
+source ./add-catalog
 # sudo ./root
