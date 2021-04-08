@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# This script will add Spatial option into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_SPATIAL^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/md/admin/mdinst.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-spatial-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/spatial.log append
+  @${ORACLE_HOME}/md/admin/mdinst.sql;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Spatial"
+
+fi
