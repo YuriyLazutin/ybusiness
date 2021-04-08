@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# This script will add USERS tablespace into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+source ./getpass "SYS"
+source ./getpass "SYSTEM"
+
+sqlplus "sys/${SYS_PASS}" as SYSDBA <<EOF
+set verify off
+set echo on
+spool ${LOGDIR}/${ORACLE_SID}/add-tablespace.log append
+
+CREATE SMALLFILE TABLESPACE "USERS" LOGGING DATAFILE '${ORACLE_BASE}/oradata/${ORACLE_SID}/users01.dat' SIZE 5M REUSE AUTOEXTEND ON NEXT  1280K MAXSIZE UNLIMITED EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT  AUTO;
+ALTER DATABASE DEFAULT TABLESPACE "USERS";
+
+spool off
+exit
+EOF
+
+PrintInfo "Creating \"USERS\" tablespace and datafiles: "

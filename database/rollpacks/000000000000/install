@@ -30,4 +30,5 @@ fi
 ./mk-init.ora
 ./mk-passfile
 ./add-database
+./add-tablespaces
 # sudo ./root
