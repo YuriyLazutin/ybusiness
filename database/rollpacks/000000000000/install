@@ -37,4 +37,5 @@ source ./add-catalog
 source ./add-sqlplus
 source ./add-jserver
 source ./add-text
+source ./add-xmldb
 # sudo ./root

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# This script will add XMLDB into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_XMLDB^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catqm.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-xmldb-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/catqm.sql.log append
+  @${ORACLE_HOME}/rdbms/admin/catqm.sql ${SYS_PASS} SYSAUX TEMP YES;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catxdbj.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-xmldb-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/catxdbj.sql.log append
+  @${ORACLE_HOME}/rdbms/admin/catxdbj.sql;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catrul.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-xmldb-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/catrul.sql.log append
+  @${ORACLE_HOME}/rdbms/admin/catrul.sql;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing XMLDB"
+
+fi
