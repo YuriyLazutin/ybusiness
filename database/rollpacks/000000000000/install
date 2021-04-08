@@ -38,4 +38,5 @@ source ./add-sqlplus
 source ./add-jserver
 source ./add-text
 source ./add-xmldb
+source ./add-multimedia
 # sudo ./root

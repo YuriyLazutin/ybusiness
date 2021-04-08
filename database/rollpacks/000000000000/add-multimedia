@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# This script will add Oracle Multimedia option into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_MULTIMEDIA^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  # Creates the schemas and grants the privs needed to run Oracle Multimedia and Spatial
+  echo "Executing ${ORACLE_HOME}/ord/admin/ordinst.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-multimedia-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/ordinst.log append
+  @${ORACLE_HOME}/ord/admin/ordinst.sql SYSAUX SYSAUX;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/ord/im/admin/iminst.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-multimedia-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/multimedia.log append
+  @${ORACLE_HOME}/ord/im/admin/iminst.sql;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Multimedia"
+
+fi
+
+
+

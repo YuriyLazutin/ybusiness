@@ -16,3 +16,4 @@ add-sqlplus      - this script add sqlplus repository into new database
 add-jserver      - this script add JServer repository into new database
 add-text         - this script add Oracle Text option into new database
 add-xmldb        - this script add XMLDB option into new database
+add-multimedia   - this script add Oracle Multimedia option into new database
