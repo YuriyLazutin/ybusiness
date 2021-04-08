@@ -9,7 +9,7 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-export INIT_ORA="${TMPDIR}/${ORACLE_SID}/init.ora"
+export INIT_ORA="${TMPDIR}/init.ora"
 
 if [ -e "${INIT_ORA}" ]; then
   rm "${INIT_ORA}"
