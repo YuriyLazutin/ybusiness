@@ -28,7 +28,8 @@ function GetOptPassword {
     echo
     if [ ! -z "$( eval echo \${$2})" ]; then
       export ${2}
-      break
+    else
+      export ${2}="${SYS_PASS}"
     fi
   fi
 }
@@ -38,24 +39,12 @@ function GetOptPassword {
 # Requesting a passwords #
 ##########################
 
-GetPassword "${ORACLE_OWNER}" "ORACLE_PASS"
-if [ -z "${ORACLE_PASS}" ]; then
-  echo -e "\033[1;31mFailed. Password for ${ORACLE_OWNER} is empty.\033[0m"
-  exit 1
+if [ -z "${2}" ]; then
+  GetPassword "${1,,}" "${1^^}_PASS"
+  if [ -z "$( eval echo \${${1^^}_PASS})" ]; then
+    echo -e "\033[1;31mFailed. Password for ${1,,} is empty.\033[0m"
+    exit 1
+  fi
+elif [ "${2,,}" == "opt" ]; then
+  GetOptPassword "${1,,}" "${1^^}_PASS"
 fi
-
-GetPassword "root" "ROOT_PASS"
-if [ -z "${ROOT_PASS}" ]; then
-  echo -e "\033[1;31mFailed. Password for root is empty.\033[0m"
-  exit 1
-fi
-
-GetPassword "SYS" "SYS_PASS"
-if [ -z "${SYS_PASS}" ]; then
-  echo -e "\033[1;31mFailed. Password for SYS is empty.\033[0m"
-  exit 1
-fi
-
-GetOptPassword "SYSTEM" "SYSTEM_PASS"
-GetOptPassword "SYSMAN" "SYSMAN_PASS"
-GetOptPassword "DBSNMP" "DBSNMP_PASS"

@@ -7,5 +7,5 @@ install      - installation script
 readme.text  - this file
 mk-dirs      - this script create a nesessary directories
 mk-init.ora  - this script create init.ora
-passwords    - this script requests a passwords
+getpass      - this script request a passwords
 print-info   - this is library function which is used in many scripts
