@@ -66,7 +66,7 @@ else
   echo -e "\033[1;31mStopped\033[0m"
   # Running listener
   "${ORACLE_HOME}/bin/lsnrctl" start "${LISTENER_NAME}" &> /dev/null
-  PrintInfo "Run listener \"${LISTENER_NAME}\": "
+  PrintInfo "Run listener \"${LISTENER_NAME}\""
 fi
 
 #rm "${LISTENER_CFG}"

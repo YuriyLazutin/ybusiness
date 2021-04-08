@@ -40,4 +40,4 @@ spool off
 exit
 EOF
 
-PrintInfo "Creating new database: "
+PrintInfo "Creating new database"

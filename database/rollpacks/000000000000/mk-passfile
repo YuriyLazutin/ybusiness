@@ -14,5 +14,5 @@ source ./print-info
 source ./getpass "SYS"
 
 orapwd file="${ORACLE_HOME}/dbs/orapw${ORACLE_SID}" password="${SYS_PASS}" force=y
-PrintInfo "Creating password file: "
+PrintInfo "Creating password file"
 
