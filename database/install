@@ -9,8 +9,14 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
+SRCROOT_DIR=$( dirname ${0} )
+if [ "${SRCROOT_DIR}" == "." ]; then
+  SRCROOT_DIR=$( pwd )
+fi
+
+# 000000000000
 echo "Installing empty database (level zero)"
-cd ./rollpacks/000000000000
+cd "${SRCROOT_DIR}/rollpacks/000000000000"
 source ./conf
 source ./checkcfg
 ./getpass "ROOT"
@@ -18,3 +24,4 @@ source ./checkcfg
 echo "${ROOT_PASS}" | sudo -Su ${ORACLE_OWNER} "./install"
 echo "${ROOT_PASS}" | sudo -S sh -c "./root"
 
+cd "${SRCROOT_DIR}"

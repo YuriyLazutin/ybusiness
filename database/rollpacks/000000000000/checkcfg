@@ -27,9 +27,9 @@ SetDefault "ORACLE_UNQNAME" "${ORACLE_SID}" # Need for Enterprice Manager start
 # SetDefault "DB_UNIQUE_NAME" "${ORACLE_SID}" # This variable used in dbca
 SetDefault "LISTENER_NAME" "LISTENER"
 SetDefault "LISTENER_PORT" "1521"
-SetDefault "LOGDIR" "${ORACLE_BASE}/logs"
-SetDefault "TMP" "${ORACLE_BASE}/tmp"
-SetDefault "TMPDIR" "${ORACLE_BASE}/tmp"
+SetDefault "LOGDIR" "${ORACLE_BASE}/logs/${ORACLE_SID}"
+SetDefault "TMP" "${ORACLE_BASE}/tmp/${ORACLE_SID}"
+SetDefault "TMPDIR" "${ORACLE_BASE}/tmp/${ORACLE_SID}"
 SetDefault "DB_DOMAIN" ""
 SetDefault "DB_BLOCK_SIZE" "8192" # 8 Kb
 SetDefault "DB_OPEN_CURSORS" "300"

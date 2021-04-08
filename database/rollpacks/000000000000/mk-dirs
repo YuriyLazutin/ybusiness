@@ -38,7 +38,11 @@ PrintInfo "Creating ${ORACLE_BASE}/oradata/${ORACLE_SID}/${ORACLE_SID}: "
 #mkdir -p "${ORACLE_HOME}/dbs/${ORACLE_SID}"
 #PrintInfo "Creating ${ORACLE_HOME}/dbs/${ORACLE_SID}: "
 
-mkdir -p "${LOGDIR}/${ORACLE_SID}"
-PrintInfo "Creating ${LOGDIR}/${ORACLE_SID}: "
+mkdir -p "${LOGDIR}"
+PrintInfo "Creating ${LOGDIR}: "
+mkdir -p "${TMP}"
+PrintInfo "Creating ${TMP}: "
+mkdir -p "${TMPDIR}"
+PrintInfo "Creating ${TMPDIR}: "
 
 umask ${OLD_UMASK}

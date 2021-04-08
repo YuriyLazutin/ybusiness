@@ -12,9 +12,7 @@
 source ./conf
 source ./checkcfg
 
-######################
-# Check current user #
-######################
+# Check current user (should be oracle, or sombody from dba group)
 echo -n "Check current user: "
 if [ "$( whoami )" == "${ORACLE_OWNER}" ]; then
   echo -e "\033[1;32mDone\033[0m"
@@ -23,6 +21,10 @@ else
   echo "This script should be executed under ${ORACLE_OWNER}!"
   exit 1
 fi
+
+ROLLPACK_ID="000000000000"
+LOGDIR="${LOGDIR}/${ROLLPACK_ID}"
+
 
 ./mk-dirs
 ./profile
