@@ -20,7 +20,6 @@ export LISTENER_PORT="1521"
 export LOGDIR="${ORACLE_BASE}/logs"
 export TMP="${ORACLE_BASE}/tmp"
 export TMPDIR="${ORACLE_BASE}/tmp"
-export INIT_ORA="${TMPDIR}/init.ora"
 export DB_DOMAIN=""
 export DB_BLOCK_SIZE="8192" # 8 Kb
 export DB_OPEN_CURSORS="300"

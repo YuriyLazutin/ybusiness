@@ -30,7 +30,6 @@ SetDefault "LISTENER_PORT" "1521"
 SetDefault "LOGDIR" "${ORACLE_BASE}/logs"
 SetDefault "TMP" "${ORACLE_BASE}/tmp"
 SetDefault "TMPDIR" "${ORACLE_BASE}/tmp"
-SetDefault "INIT_ORA" "${TMPDIR}/init.ora"
 SetDefault "DB_DOMAIN" ""
 SetDefault "DB_BLOCK_SIZE" "8192" # 8 Kb
 SetDefault "DB_OPEN_CURSORS" "300"
