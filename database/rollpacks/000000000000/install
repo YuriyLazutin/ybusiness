@@ -50,4 +50,5 @@ source ./add-spatial
 source ./add-ols
 source ./add-emrepo
 source ./add-apex
+source ./add-wbuilder
 # sudo ./root

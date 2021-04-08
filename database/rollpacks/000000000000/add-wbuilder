@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# This script will add Warehouse Builder into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_WAREHOUSE_BUILDER^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  sed -i "s/SPOOL LOG_cat_owb.TXT//" "${ORACLE_HOME}/owb/UnifiedRepos/cat_owb.sql"
+  sed -i "s/set termout off//" "${ORACLE_HOME}/owb/UnifiedRepos/cat_owb.sql"
+  sed -i "s/set termout on//" "${ORACLE_HOME}/owb/UnifiedRepos/cat_owb.sql"
+  sed -i "s/SPOOL OFF//" "${ORACLE_HOME}/owb/UnifiedRepos/cat_owb.sql"
+
+  echo "Executing ${ORACLE_HOME}/owb/UnifiedRepos/cat_owb.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-wb-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/WBuilder.log append
+  @${ORACLE_HOME}/owb/UnifiedRepos/cat_owb.sql SYSAUX TEMP;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Warehouse Builder"
+
+fi
