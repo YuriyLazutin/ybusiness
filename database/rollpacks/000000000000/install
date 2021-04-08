@@ -34,4 +34,5 @@ source ./mk-passfile
 source ./add-database
 source ./add-tablespaces
 source ./add-catalog
+source ./add-sqlplus
 # sudo ./root
