@@ -41,4 +41,5 @@ source ./add-xmldb
 source ./add-multimedia
 source ./add-olap
 source ./add-spatial
+source ./add-ols
 # sudo ./root

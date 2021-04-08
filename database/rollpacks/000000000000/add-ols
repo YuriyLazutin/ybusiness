@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# This script will add OLS into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_LABEL_SECURITY^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catols.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-ols-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/labelSecurity.log append
+  @${ORACLE_HOME}/rdbms/admin/catols.sql;
+  /* After this script database will shutdown immediate */
+  startup pfile="${INIT_ORA}";
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing OLS"
+
+fi
