@@ -36,4 +36,5 @@ source ./add-tablespaces
 source ./add-catalog
 source ./add-sqlplus
 source ./add-jserver
+source ./add-text
 # sudo ./root

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# This script will add Oracle Text into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_TEXT^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/ctx/admin/catctx.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-text-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/catctx.sql.log append
+  @${ORACLE_HOME}/ctx/admin/catctx.sql ${SYS_PASS} SYSAUX TEMP NOLOCK;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/ctx/admin/defaults/dr0defin.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-text-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/dr0defin.sql.log append
+  /* based on passed-in language name, run the appropriate language-specific default preference install script */
+  @${ORACLE_HOME}/ctx/admin/defaults/dr0defin.sql "AMERICAN";
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Oracle Text"
+
+fi
