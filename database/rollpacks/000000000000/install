@@ -29,4 +29,5 @@ fi
 ./listener
 ./mk-init.ora
 ./mk-passfile
+./add-database
 # sudo ./root
