@@ -16,7 +16,7 @@ source ./getpass "SYSTEM"
 sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-tablespace-script.log" <<EOF
 set verify off
 set echo on
-spool ${LOGDIR}/${ORACLE_SID}/add-tablespace.log append
+spool ${LOGDIR}/add-tablespace.log append
 
 CREATE SMALLFILE TABLESPACE "USERS" LOGGING DATAFILE '${ORACLE_BASE}/oradata/${ORACLE_SID}/users01.dat' SIZE 5M REUSE AUTOEXTEND ON NEXT  1280K MAXSIZE UNLIMITED EXTENT MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT  AUTO;
 ALTER DATABASE DEFAULT TABLESPACE "USERS";

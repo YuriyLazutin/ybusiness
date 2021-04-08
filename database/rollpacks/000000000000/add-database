@@ -16,7 +16,7 @@ source ./getpass "SYSTEM"
 sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-database-script.log" <<EOF
 set verify off
 set echo on
-spool ${LOGDIR}/${ORACLE_SID}/add-database.log append
+spool ${LOGDIR}/add-database.log append
 startup nomount pfile="${INIT_ORA}";
 
 CREATE DATABASE "${ORACLE_SID}"
