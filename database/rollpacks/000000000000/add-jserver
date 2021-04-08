@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# This script will add JServer into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_JVM^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/javavm/install/initjvm.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-jserver-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/initjvm.sql.log append
+  @${ORACLE_HOME}/javavm/install/initjvm.sql;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/xdk/admin/initxml.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-jserver-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/initxml.sql.log append
+  @${ORACLE_HOME}/xdk/admin/initxml.sql;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/xdk/admin/xmlja.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-jserver-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/xmlja.sql.log append
+  @${ORACLE_HOME}/xdk/admin/xmlja.sql;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catjava.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-jserver-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/catjava.sql.log append
+  @${ORACLE_HOME}/rdbms/admin/catjava.sql;
+  spool off
+
+  exit
+EOF
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catexf.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &>> "${LOGDIR}/add-jserver-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/catexf.sql.log append
+  @${ORACLE_HOME}/rdbms/admin/catexf.sql;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing JServer"
+
+fi
+

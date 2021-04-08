@@ -13,3 +13,4 @@ add-database     - this script create a new database
 add-tablespaces  - this script add "USERS" tablespace into new database (and corresponding datafile)
 add-catalog      - this script add catalog into new database
 add-sqlplus      - this script add sqlplus repository into new database
+add-jserver      - this script add JServer repository into new database
