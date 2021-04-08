@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# This script will add OLAP into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_OLAP^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/olap/admin/olap.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-olap-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/olap.log append
+  @${ORACLE_HOME}/olap/admin/olap.sql SYSAUX TEMP;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing OLAP"
+
+fi
