@@ -61,7 +61,7 @@ echo "nls_language=\"AMERICAN\"" >> "${INIT_ORA}"
 echo "nls_territory=\"AMERICA\"" >> "${INIT_ORA}"
 
 echo "# Network Registration" >> "${INIT_ORA}"
-echo "local_listener=${LISTENER_NAME}" >> "${INIT_ORA}"
+echo "# local_listener=${LISTENER_NAME}" >> "${INIT_ORA}"
 
 echo "# Processes and Sessions" >> "${INIT_ORA}"
 echo "processes=${DB_PROCESSES}" >> "${INIT_ORA}"

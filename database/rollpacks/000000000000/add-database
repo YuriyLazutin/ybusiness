@@ -13,7 +13,7 @@ source ./print-info
 source ./getpass "SYS"
 source ./getpass "SYSTEM"
 
-sqlplus "sys/${SYS_PASS}" as SYSDBA <<EOF
+sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/${ORACLE_SID}/add-database-script.log" <<EOF
 set verify off
 set echo on
 spool ${LOGDIR}/${ORACLE_SID}/add-database.log append

@@ -28,9 +28,9 @@ export DB_PROCESSES="150"
 # If we will use Automatic Memory Managent, we should setup only DB_MEMORY_TARGET variable
 # This memory will used for both SGA and PGA
 # If we will use Manual Memory Management, we should setup both DB_SGA_TARGET and DB_PGA_AGGREGATE_TARGET,  but not DB_MEMORY_TARGET
-export DB_MEMORY_TARGET="17179869184" # 16 Gb (16 * 1024 * 1024 * 1024), 12 Gb SGA + 4 Gb PGA
-#export DB_SGA_TARGET="12884901888" # 12 Gb (12 * 1024 * 1024 * 1024)
-#export DB_PGA_AGGREGATE_TARGET="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
+#export DB_MEMORY_TARGET="17179869184" # 16 Gb (16 * 1024 * 1024 * 1024), 12 Gb SGA + 4 Gb PGA
+export DB_SGA_TARGET="12884901888" # 12 Gb (12 * 1024 * 1024 * 1024)
+export DB_PGA_AGGREGATE_TARGET="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
 
 # Install options
 
