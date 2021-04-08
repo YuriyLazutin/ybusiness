@@ -25,6 +25,12 @@ fi
 ROLLPACK_ID="000000000000"
 LOGDIR="${LOGDIR}/${ROLLPACK_ID}"
 
+source ./getpass "SYS"
+source ./getpass "SYSTEM" "opt"
+
+if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
+  source ./getpass "SYSMAN" "opt"
+fi
 
 ./mk-dirs
 ./profile
@@ -42,4 +48,5 @@ source ./add-multimedia
 source ./add-olap
 source ./add-spatial
 source ./add-ols
+source ./add-emrepo
 # sudo ./root

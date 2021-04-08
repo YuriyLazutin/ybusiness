@@ -20,3 +20,4 @@ add-multimedia   - this script add Oracle Multimedia option into new database
 add-olap         - this script add OLAP option into new database
 add-spatial      - this script add Spatial option into new database
 add-ols          - this script add Label Security option into new database
+add-emrepo       - this script add Enterprice Manager repository into new database

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# This script will add Enterprice Manager repository into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
+  source ./getpass "SYS"
+  source ./getpass "SYSMAN" "opt"
+
+  echo "Executing ${ORACLE_HOME}/sysman/admin/emdrep/sql/emreposcre.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-emrepo-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/emrepo.log append
+  @${ORACLE_HOME}/sysman/admin/emdrep/sql/emreposcre.sql ${ORACLE_HOME} SYSMAN ${SYSMAN_PASS} TEMP ON;
+  -- WHENEVER SQLERROR CONTINUE;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Enterprice Manager repository"
+
+fi
