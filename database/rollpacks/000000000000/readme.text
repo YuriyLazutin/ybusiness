@@ -23,3 +23,4 @@ add-ols          - this script add Label Security option into new database
 add-emrepo       - this script add Enterprice Manager repository into new database
 add-apex         - this script add APEX option into new database
 add-wbuilder     - this script add Warehouse Builder option into new database
+add-extnet       - this script add Database Extensions for .NET option into new database

@@ -51,4 +51,5 @@ source ./add-ols
 source ./add-emrepo
 source ./add-apex
 source ./add-wbuilder
+source ./add-extnet
 # sudo ./root

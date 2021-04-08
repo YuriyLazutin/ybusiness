@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# This script will add Database Extensions for .NET into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-09
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_EXT_NET^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/dbmsclr.plb"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-extnet-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/net-extensions.log append
+  @${ORACLE_HOME}/rdbms/admin/dbmsclr.plb;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Database Extensions for .NET"
+
+fi
