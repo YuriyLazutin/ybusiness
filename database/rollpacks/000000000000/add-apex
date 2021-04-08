@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# This script will add APEX into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-08
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./print-info
+
+if [ "${DB_ENABLE_APEX^^}" == "Y" ]; then
+  source ./getpass "SYS"
+
+  sed -i "s/set termout off//" ${ORACLE_HOME}/apex/catapx.sql
+  sed -i "s/spool off//g" ${ORACLE_HOME}/apex/catapx.sql
+  sed -i "s/set termout on//" ${ORACLE_HOME}/apex/catapx.sql
+
+
+  echo "Executing ${ORACLE_HOME}/apex/catapx.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-apex-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/apex.log append
+  @${ORACLE_HOME}/apex/catapx.sql ${SYS_PASS} SYSAUX SYSAUX TEMP /i/ NONE;
+  spool off
+
+  exit
+EOF
+
+  PrintInfo "Installing Apex"
+
+fi

@@ -49,4 +49,5 @@ source ./add-olap
 source ./add-spatial
 source ./add-ols
 source ./add-emrepo
+source ./add-apex
 # sudo ./root

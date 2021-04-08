@@ -21,3 +21,4 @@ add-olap         - this script add OLAP option into new database
 add-spatial      - this script add Spatial option into new database
 add-ols          - this script add Label Security option into new database
 add-emrepo       - this script add Enterprice Manager repository into new database
+add-apex         - this script add APEX option into new database
