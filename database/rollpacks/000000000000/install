@@ -9,7 +9,11 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-source ./conf
+if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
+  export YBUSINESS_SETUP_LEVEL="rollpack"
+  source ../../conf
+fi
+
 source ./checkcfg
 
 # Check current user (should be oracle, or sombody from dba group)

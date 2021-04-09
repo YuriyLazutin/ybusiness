@@ -14,10 +14,16 @@ if [ "${SRCROOT_DIR}" == "." ]; then
   SRCROOT_DIR=$( pwd )
 fi
 
+if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
+  export YBUSINESS_SETUP_LEVEL="full"
+  source ./conf
+fi
+
+
+
 # 000000000000
 echo "Installing empty database (level zero)"
 cd "${SRCROOT_DIR}/rollpacks/000000000000"
-source ./conf
 source ./checkcfg
 ./getpass "ROOT"
 

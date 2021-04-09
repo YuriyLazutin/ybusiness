@@ -9,6 +9,11 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
+if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
+  export YBUSINESS_SETUP_LEVEL="script"
+  source ../../conf
+fi
+
 source ./print-info
 source ./getpass "SYS"
 
