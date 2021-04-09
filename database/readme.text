@@ -1,0 +1,5 @@
+
+conf             - parameters for ybusiness installation
+install          - installation script. This script will install all rollpacks step by step.
+readme.text      - this file
+rollpacks        - directory with roll packages

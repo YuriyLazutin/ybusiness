@@ -1,4 +1,6 @@
-conf             - parameters for ybusiness installation
+Rollpack 000000000000 - level zero.
+This scripts will create an empty database
+
 checkcfg         - this script checks parameters from conf file, setup default values and enforce dependent parameters
 profile          - this script configure user profile
 listener         - this script configure and start listener
