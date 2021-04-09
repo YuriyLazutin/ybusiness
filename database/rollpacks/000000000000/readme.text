@@ -24,3 +24,4 @@ add-emrepo       - this script add Enterprice Manager repository into new databa
 add-apex         - this script add APEX option into new database
 add-wbuilder     - this script add Warehouse Builder option into new database
 add-extnet       - this script add Database Extensions for .NET option into new database
+post-add         - post database creation steps

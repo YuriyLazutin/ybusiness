@@ -56,4 +56,5 @@ source ./add-emrepo
 source ./add-apex
 source ./add-wbuilder
 source ./add-extnet
+source ./post-add
 # sudo ./root
