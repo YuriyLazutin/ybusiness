@@ -57,4 +57,5 @@ source ./add-apex
 source ./add-wbuilder
 source ./add-extnet
 source ./post-add
+source ./archive-log
 # sudo ./root
