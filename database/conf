@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# This script creates environment variables
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-mar-11
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+export ORACLE_OWNER="oracle"
+export ORACLE_BASE="/opt/Oracle"
+export ORACLE_HOME="/opt/Oracle/server"
+export ORACLE_SID="ydata" # ! Not more than 8 characters
+export ORACLE_UNQNAME=${ORACLE_SID} # Need for Enterprice Manager start
+# export DB_UNIQUE_NAME=${ORACLE_SID} # This variable used in dbca
+export LISTENER_NAME="LISTENER"
+export LISTENER_PORT="1521"
+export LOGDIR="${ORACLE_BASE}/logs/${ORACLE_SID}"
+export TMP="${ORACLE_BASE}/tmp/${ORACLE_SID}"
+export TMPDIR="${ORACLE_BASE}/tmp/${ORACLE_SID}"
+export DB_DOMAIN=""
+export DB_BLOCK_SIZE="8192" # 8 Kb
+export DB_OPEN_CURSORS="300"
+export DB_PROCESSES="150"
+
+# If we will use Automatic Memory Managent, we should setup only DB_MEMORY_TARGET variable
+# This memory will used for both SGA and PGA
+# If we will use Manual Memory Management, we should setup both DB_SGA_TARGET and DB_PGA_AGGREGATE_TARGET,  but not DB_MEMORY_TARGET
+#export DB_MEMORY_TARGET="17179869184" # 16 Gb (16 * 1024 * 1024 * 1024), 12 Gb SGA + 4 Gb PGA
+export DB_SGA_TARGET="12884901888" # 12 Gb (12 * 1024 * 1024 * 1024)
+export DB_PGA_AGGREGATE_TARGET="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
+
+# Install options
+
+# This option will allow you to manage your database via web interface
+export DB_INSTALL_ENTERPRICE_MANAGER="N"
+# Enables Optimizer statistics collection and proactive advisor reports
+export DB_ENABLE_AUTOMATIC_MAINTENANCE_TASKS="N"
+# Enable fast recovery area
+export DB_ENABLE_FAST_RECOVERY_AREA="N"
+export DB_FAST_RECOVERY_AREA_SIZE="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
+# Enable archive log mode
+export DB_ENABLE_ARCHIVELOG="N"
+
+# Standart database components
+# JServer
+export DB_ENABLE_JVM="N"
+# XML DB
+export DB_ENABLE_XMLDB="N"
+# Multimedia
+export DB_ENABLE_MULTIMEDIA="N"
+# APEX
+export DB_ENABLE_APEX="N"
+
+# Extended database components
+# Text
+export DB_ENABLE_TEXT="N"
+# OLAP
+export DB_ENABLE_OLAP="N"
+# Warehouse Builder
+export DB_ENABLE_WAREHOUSE_BUILDER="N"
+# Spatial
+export DB_ENABLE_SPATIAL="N"
+
+# This parts is not fully implemented
+# Label Security
+export DB_ENABLE_LABEL_SECURITY="N"
+# Database Extensions for .NET
+export DB_ENABLE_EXT_NET="N"
+# Database Vault
+# DB_ENABLE_DATABASE_VAULT="N"
+
+
+
