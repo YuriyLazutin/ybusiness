@@ -31,3 +31,13 @@ echo "${ROOT_PASS}" | sudo -Su ${ORACLE_OWNER} "./install"
 echo "${ROOT_PASS}" | sudo -S sh -c "./root"
 
 cd "${SRCROOT_DIR}"
+
+
+
+
+
+################### Done ! #####################
+
+echo
+echo -e "\033[1;32m${ORACLE_SID} database was successfully installed. Press any key to exit\033[0m"
+read v_dummy
