@@ -25,10 +25,9 @@ fi
 echo "Installing empty database (level zero)"
 cd "${SRCROOT_DIR}/rollpacks/000000000000"
 source ./checkcfg
-./getpass "ROOT"
 
-echo "${ROOT_PASS}" | sudo -Su ${ORACLE_OWNER} "./install"
-echo "${ROOT_PASS}" | sudo -S sh -c "./root"
+sudo -u ${ORACLE_OWNER} ./install
+sudo ./root
 
 cd "${SRCROOT_DIR}"
 
