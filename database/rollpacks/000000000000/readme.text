@@ -30,4 +30,5 @@ post-add         - post database creation steps
 archive-log      - this script enable archive log mode
 mk-spfile        - this script creates spfile
 em-setup         - this script configure Enterprice Manager
+lock-accounts    - this script will lock all accounts except SYS and SYSTEM
 rollpack-cmn     - macros for internal use, which included user check and setting up ROLLPACK_ID

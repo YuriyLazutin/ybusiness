@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# This script will lock all accounts except SYS and SYSTEM
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-09
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+source ./getpass "SYS"
+
+sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/lock-accounts-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/lock-accounts.log append
+
+BEGIN
+  FOR item IN ( SELECT USERNAME FROM DBA_USERS WHERE ACCOUNT_STATUS IN ('OPEN', 'LOCKED', 'EXPIRED') AND USERNAME NOT IN ('SYS', 'SYSTEM') ) LOOP
+    dbms_output.put_line('Locking and Expiring: ' || item.USERNAME);
+    execute immediate 'alter user ' || sys.dbms_assert.enquote_name(sys.dbms_assert.schema_name(item.USERNAME), false) || ' password expire account lock';
+  END LOOP;
+END;
+/
+
+spool off
+
+exit
+EOF
+
+PrintInfo "Locking accounts except SYS and SYSTEM"

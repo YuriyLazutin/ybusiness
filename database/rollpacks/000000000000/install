@@ -60,4 +60,5 @@ source ./post-add
 source ./archive-log
 source ./mk-spfile
 source ./em-setup
+source ./lock-accounts
 # sudo ./root
