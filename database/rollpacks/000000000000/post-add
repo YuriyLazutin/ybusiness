@@ -13,15 +13,21 @@ source ./rollpack-cmn
 source ./print-info
 source ./getpass "SYS"
 
+if [ "${DB_ENABLE_AUTOMATIC_MAINTENANCE_TASKS}" == "N" ]; then
+  DISABLE_AMT_STTMNT="execute DBMS_AUTO_TASK_ADMIN.disable();"
+fi
+
 sed -i "s/SET TERMOUT on//" "${ORACLE_HOME}/rdbms/admin/catbundle.sql"
 sed -i "s/insertScriptFile('B', 'SPOOL &' || 'spool_file');//" "${ORACLE_HOME}/rdbms/admin/catbundle.sql"
 sed -i "s/SPOOL off//" "${ORACLE_HOME}/rdbms/admin/catbundle.sql"
 
+echo "Executing ${ORACLE_HOME}/rdbms/admin/catbundle.sql"
 sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/post-add-script.log" <<EOF
 set verify off
 set echo on
 
 spool ${LOGDIR}/post-db-creation.log append
+${DISABLE_AMT_STTMNT}
 @${ORACLE_HOME}/rdbms/admin/catbundle.sql psu apply;
 
 select 'utl_recomp_begin: ' || to_char(sysdate, 'HH:MI:SS') from dual;

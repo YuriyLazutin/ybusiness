@@ -79,8 +79,10 @@ echo "audit_file_dest=\"${ORACLE_BASE}/admin/${ORACLE_SID}/adump\"" >> "${INIT_O
 echo "audit_trail=db" >> "${INIT_ORA}"
 echo "remote_login_passwordfile=EXCLUSIVE" >> "${INIT_ORA}"
 
-echo "# Shared Server" >> "${INIT_ORA}"
-echo "dispatchers=\"(PROTOCOL=TCP) (SERVICE=${ORACLE_SID}XDB)\"" >> "${INIT_ORA}"
+if [ "${DB_ENABLE_XMLDB^^}" == "Y" ]; then
+  echo "# Shared Server" >> "${INIT_ORA}"
+  echo "dispatchers=\"(PROTOCOL=TCP) (SERVICE=${ORACLE_SID}XDB)\"" >> "${INIT_ORA}"
+fi
 
 echo "# System Managed Undo and Rollback Segments" >> "${INIT_ORA}"
 echo "undo_tablespace=UNDOTBS1" >> "${INIT_ORA}"

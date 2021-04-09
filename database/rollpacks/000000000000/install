@@ -34,6 +34,7 @@ source ./getpass "SYSTEM" "opt"
 
 if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
   source ./getpass "SYSMAN" "opt"
+  source ./getpass "DBSNMP" "opt"
 fi
 
 ./mk-dirs

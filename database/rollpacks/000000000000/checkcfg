@@ -90,13 +90,13 @@ fi
 
   # Enable archive log mode
   # fast recovery area should be enabled or you need to specify archivelog destinations (not implemented in my scripts)
-  
+
   # Changes in init.ora
   # ###########################################
   # # Archive
   # ###########################################
   # log_archive_format=%t_%s_%r.dbf
-  
+
   # Additions on post database creation step
   # shutdown immediate;
   # connect "SYS"/"&&sysPassword" as SYSDBA
@@ -284,7 +284,7 @@ fi
   # This parts is not fully implemented
   SetDefault "DB_ENABLE_LABEL_SECURITY" "N"
   SetDefault "DB_ENABLE_EXT_NET" "N"
-  # SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
+  SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
 
 if [[ "${PATH}" != *"${ORACLE_HOME}/bin:"* ]]; then
   export PATH="${ORACLE_HOME}/bin:${PATH}"

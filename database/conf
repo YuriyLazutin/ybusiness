@@ -70,7 +70,7 @@ export DB_ENABLE_LABEL_SECURITY="N"
 # Database Extensions for .NET
 export DB_ENABLE_EXT_NET="N"
 # Database Vault
-# DB_ENABLE_DATABASE_VAULT="N"
+export DB_ENABLE_DATABASE_VAULT="N"
 
 
 
