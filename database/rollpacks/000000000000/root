@@ -11,6 +11,8 @@
 if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
   export YBUSINESS_SETUP_LEVEL="script"
   source ../../conf
+  ROLLPACK_ID="000000000000"
+  LOGDIR="${LOGDIR}/${ROLLPACK_ID}"
 fi
 
 source ./print-info

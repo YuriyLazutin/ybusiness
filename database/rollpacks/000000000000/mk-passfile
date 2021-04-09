@@ -9,13 +9,8 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
-  export YBUSINESS_SETUP_LEVEL="script"
-  source ../../conf
-fi
-
+source ./rollpack-cmn
 source ./print-info
-
 source ./getpass "SYS"
 
 orapwd file="${ORACLE_HOME}/dbs/orapw${ORACLE_SID}" password="${SYS_PASS}" force=y

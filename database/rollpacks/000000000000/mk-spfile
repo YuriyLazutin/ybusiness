@@ -9,18 +9,13 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
-  export YBUSINESS_SETUP_LEVEL="script"
-  source ../../conf
-fi
-
+source ./rollpack-cmn
 source ./print-info
+source ./getpass "SYS"
 
 if [ -z "${INIT_ORA}" ]; then
   source ./mk-init.ora
 fi
-
-source ./getpass "SYS"
 
 sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/mk-spfile-script.log" <<EOF
 set verify off
