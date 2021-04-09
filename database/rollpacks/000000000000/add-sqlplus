@@ -37,4 +37,8 @@ spool off
 exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-sqlplus-script.log"
+  ./mask-pass "${LOGDIR}/pupbld.sql.log"
+  ./mask-pass "${LOGDIR}/hlpbld.sql.log"
+
 PrintInfo "Installing sqlplus repo"

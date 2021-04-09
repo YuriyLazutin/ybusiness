@@ -27,6 +27,9 @@ if [ "${DB_ENABLE_OLAP^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-olap-script.log"
+  ./mask-pass "${LOGDIR}/olap.log"
+
   PrintInfo "Installing OLAP"
 
 fi

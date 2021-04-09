@@ -51,6 +51,11 @@ EOF
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-xmldb-script.log"
+  ./mask-pass "${LOGDIR}/catqm.sql.log"
+  ./mask-pass "${LOGDIR}/catxdbj.sql.log"
+  ./mask-pass "${LOGDIR}/catrul.sql.log"
+
   PrintInfo "Installing XMLDB"
 
 fi

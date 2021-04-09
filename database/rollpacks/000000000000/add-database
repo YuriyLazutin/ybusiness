@@ -41,4 +41,7 @@ spool off
 exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-database-script.log"
+  ./mask-pass "${LOGDIR}/add-database.log"
+
 PrintInfo "Creating new database"

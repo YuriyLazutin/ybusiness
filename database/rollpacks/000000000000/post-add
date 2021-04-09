@@ -38,4 +38,7 @@ spool off
 exit
 EOF
 
+./mask-pass "${LOGDIR}/post-add-script.log"
+./mask-pass "${LOGDIR}/post-db-creation.log"
+
 PrintInfo "Post database creation steps"

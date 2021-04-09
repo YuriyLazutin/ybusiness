@@ -32,4 +32,7 @@ spool off
 exit
 EOF
 
+./mask-pass "${LOGDIR}/lock-accounts-script.log"
+./mask-pass "${LOGDIR}/lock-accounts.log"
+
 PrintInfo "Locking accounts except SYS and SYSTEM"

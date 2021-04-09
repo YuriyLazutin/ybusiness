@@ -27,6 +27,9 @@ if [ "${DB_ENABLE_SPATIAL^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-spatial-script.log"
+  ./mask-pass "${LOGDIR}/spatial.log"
+
   PrintInfo "Installing Spatial"
 
 fi

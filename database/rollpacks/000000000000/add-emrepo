@@ -29,6 +29,9 @@ if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-emrepo-script.log"
+  ./mask-pass "${LOGDIR}/emrepo.log"
+
   PrintInfo "Installing Enterprice Manager repository"
 
 fi

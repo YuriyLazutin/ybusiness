@@ -32,6 +32,9 @@ if [ "${DB_ENABLE_WAREHOUSE_BUILDER^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-wb-script.log"
+  ./mask-pass "${LOGDIR}/WBuilder.log"
+
   PrintInfo "Installing Warehouse Builder"
 
 fi

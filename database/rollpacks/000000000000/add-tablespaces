@@ -26,4 +26,7 @@ spool off
 exit
 EOF
 
+./mask-pass "${LOGDIR}/add-tablespace-script.log"
+./mask-pass "${LOGDIR}/add-tablespace.log"
+
 PrintInfo "Creating \"USERS\" tablespace and datafiles"

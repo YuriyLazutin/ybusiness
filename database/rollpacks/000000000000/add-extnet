@@ -27,6 +27,9 @@ if [ "${DB_ENABLE_EXT_NET^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-extnet-script.log"
+  ./mask-pass "${LOGDIR}/net-extensions.log"
+
   PrintInfo "Installing Database Extensions for .NET"
 
 fi

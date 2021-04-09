@@ -30,4 +30,7 @@ spool off
 exit
 EOF
 
+./mask-pass "${LOGDIR}/mk-spfile-script.log"
+./mask-pass "${LOGDIR}/mk-spfile.log"
+
 PrintInfo "Creating spfile"

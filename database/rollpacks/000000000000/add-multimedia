@@ -40,6 +40,10 @@ EOF
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-multimedia-script.log"
+  ./mask-pass "${LOGDIR}/ordinst.log"
+  ./mask-pass "${LOGDIR}/multimedia.log"
+
   PrintInfo "Installing Multimedia"
 
 fi

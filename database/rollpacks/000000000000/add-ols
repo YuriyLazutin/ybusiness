@@ -20,7 +20,7 @@ if [ "${DB_ENABLE_LABEL_SECURITY^^}" == "Y" ]; then
   set verify off
   set echo on
 
-  spool ${LOGDIR}/labelSecurity.log append
+  spool ${LOGDIR}/label-security.log append
   @${ORACLE_HOME}/rdbms/admin/catols.sql;
   /* After this script database will shutdown immediate */
   startup pfile="${INIT_ORA}";
@@ -28,6 +28,9 @@ if [ "${DB_ENABLE_LABEL_SECURITY^^}" == "Y" ]; then
 
   exit
 EOF
+
+  ./mask-pass "${LOGDIR}/add-ols-script.log"
+  ./mask-pass "${LOGDIR}/label-security.log"
 
   PrintInfo "Installing OLS"
 

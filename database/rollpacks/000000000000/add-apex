@@ -32,6 +32,9 @@ if [ "${DB_ENABLE_APEX^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-apex-script.log"
+  ./mask-pass "${LOGDIR}/apex.log"
+
   PrintInfo "Installing Apex"
 
 fi

@@ -73,4 +73,11 @@ spool off
 exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-catalog-script.log"
+  ./mask-pass "${LOGDIR}/catalog.sql.log"
+  ./mask-pass "${LOGDIR}/catblock.sql.log"
+  ./mask-pass "${LOGDIR}/catproc.sql.log"
+  ./mask-pass "${LOGDIR}/catoctk.sql.log"
+  ./mask-pass "${LOGDIR}/owminst.plb.log"
+
 PrintInfo "Installing catalog"

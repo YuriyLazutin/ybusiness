@@ -75,6 +75,13 @@ EOF
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-jserver-script.log"
+  ./mask-pass "${LOGDIR}/initjvm.sql.log"
+  ./mask-pass "${LOGDIR}/initxml.sql.log"
+  ./mask-pass "${LOGDIR}/xmlja.sql.log"
+  ./mask-pass "${LOGDIR}/catjava.sql.log"
+  ./mask-pass "${LOGDIR}/catexf.sql.log"
+
   PrintInfo "Installing JServer"
 
 fi

@@ -40,6 +40,10 @@ EOF
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/add-text-script.log"
+  ./mask-pass "${LOGDIR}/catctx.sql.log"
+  ./mask-pass "${LOGDIR}/dr0defin.sql.log"
+
   PrintInfo "Installing Oracle Text"
 
 fi

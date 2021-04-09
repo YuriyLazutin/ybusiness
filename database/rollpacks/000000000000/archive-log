@@ -35,6 +35,9 @@ if [ "${DB_ENABLE_ARCHIVELOG^^}" == "Y" ]; then
   exit
 EOF
 
+  ./mask-pass "${LOGDIR}/archive-log-script.log"
+  ./mask-pass "${LOGDIR}/archive-log.log"
+
   PrintInfo "Enabling Archive log mode"
 
 fi

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# This script will mask passwords in log files.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-09
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+if [ ! -z "SYS_PASS" ]; then
+  sed -i "s/${SYS_PASS}/#################/g" "${1}"
+fi
+
+if [ ! -z "SYSTEM_PASS" ]; then
+  sed -i "s/${SYSTEM_PASS}/#################/g" "${1}"
+fi
+
+if [ ! -z "SYSMAN_PASS" ]; then
+  sed -i "s/${SYSMAN_PASS}/#################/g" "${1}"
+fi
+
+if [ ! -z "DBSNMP_PASS" ]; then
+  sed -i "s/${DBSNMP_PASS}/#################/g" "${1}"
+fi

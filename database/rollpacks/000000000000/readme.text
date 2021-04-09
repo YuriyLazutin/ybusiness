@@ -32,3 +32,5 @@ mk-spfile        - this script creates spfile
 em-setup         - this script configure Enterprice Manager
 lock-accounts    - this script will lock all accounts except SYS and SYSTEM
 rollpack-cmn     - macros for internal use, which included user check and setting up ROLLPACK_ID
+mask-pass        - this script will mask passwords in log files, if it leak
+
