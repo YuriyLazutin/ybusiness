@@ -59,4 +59,5 @@ source ./add-extnet
 source ./post-add
 source ./archive-log
 source ./mk-spfile
+source ./em-setup
 # sudo ./root

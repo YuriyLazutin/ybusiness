@@ -29,4 +29,5 @@ add-extnet       - this script add Database Extensions for .NET option into new 
 post-add         - post database creation steps
 archive-log      - this script enable archive log mode
 mk-spfile        - this script creates spfile
+em-setup         - this script configure Enterprice Manager
 rollpack-cmn     - macros for internal use, which included user check and setting up ROLLPACK_ID

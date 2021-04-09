@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# This script will configure Enterprice Manager.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-09
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+
+if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
+
+  # Check "the listener is running?"
+  echo -n "Checking listener. \"${LISTENER_NAME}\" is running?: "
+  lsnrctl status "${LISTENER_NAME}" | grep -E "TNS-12541: TNS:no listener|TNS-12560: TNS:protocol adapter error|TNS-00511: No listener" &> /dev/null
+  if [ $? -ne 0 ]; then
+    lsnrctl status "${LISTENER_NAME}" | grep "Start Date" &> /dev/null
+    if [ $? -eq 0 ]; then
+      echo -e "\033[1;32mRunning\033[0m"
+    else
+      echo -e "\033[1;31m???\033[0m"
+    fi
+  else
+    echo -e "\033[1;31mStopped\033[0m"
+    # Run listener
+    "${ORACLE_HOME}/bin/lsnrctl" start "${LISTENER_NAME}" &> /dev/null
+    PrintInfo "Run listener \"${LISTENER_NAME}\""
+  fi
+
+fi
+
+# Configuring Enterprice Manager
+echo "Configuring Enterprice Manager"
+emca -config dbcontrol db -silent -DB_UNIQUE_NAME "${ORACLE_SID}" -PORT 1521 -EM_HOME "${ORACLE_HOME}" -LISTENER "${LISTENER_NAME}" -SERVICE_NAME "${ORACLE_SID}" -SID "${ORACLE_SID}" -ORACLE_HOME "${ORACLE_HOME}" -HOST "$( hostname )" -LISTENER_OH "${ORACLE_HOME}" -LOG_FILE "${LOGDIR}/emsetup.log"
