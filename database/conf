@@ -63,10 +63,10 @@ export DB_ENABLE_OLAP="N"
 export DB_ENABLE_WAREHOUSE_BUILDER="N"
 # Spatial
 export DB_ENABLE_SPATIAL="N"
-
-# This parts is not fully implemented
 # Label Security
 export DB_ENABLE_LABEL_SECURITY="N"
+
+# This parts is not fully implemented
 # Database Extensions for .NET
 export DB_ENABLE_EXT_NET="N"
 # Database Vault
