@@ -12,7 +12,6 @@
 source ./rollpack-cmn
 source ./print-info
 source ./getpass "SYS"
-source ./getpass "SYSTEM"
 
 sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-tablespace-script.log" <<EOF
 set verify off
