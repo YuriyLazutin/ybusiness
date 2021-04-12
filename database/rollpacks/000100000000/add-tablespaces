@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script will add tablespaces into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-12
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+source ./getpass "SYS"
+
+sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-tablespaces-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/add-tablespaces.log append
+@add-tablespaces.sql
+
+spool off
+exit
+EOF
+
+./mask-pass "${LOGDIR}/add-tablespaces-script.log"
+./mask-pass "${LOGDIR}/add-tablespaces.log"
+
+PrintInfo "Creating tablespaces and datafiles"

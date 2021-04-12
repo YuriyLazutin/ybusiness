@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# This script will install initial database for ybusiness software.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-12
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
+  export YBUSINESS_SETUP_LEVEL="rollpack"
+  source ../../conf
+fi
+
+source ./checkcfg
+
+# Check current user (should be oracle, or sombody from dba group)
+echo -n "Check current user: "
+if [ "$( whoami )" == "${ORACLE_OWNER}" ]; then
+  echo -e "\033[1;32mDone\033[0m"
+else
+  echo -e "\033[1;31mFailed\033[0m"
+  echo "This script should be executed under ${ORACLE_OWNER}!"
+  exit 1
+fi
+
+ROLLPACK_ID="000100000000"
+LOGDIR="${LOGDIR}/${ROLLPACK_ID}"
+
+source ./getpass "SYS"
+
+./mk-dirs

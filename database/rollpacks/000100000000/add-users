@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script will add new users into database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-12
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+source ./getpass "SYS"
+
+sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-users-script.log" <<EOF
+set verify off
+set echo on
+
+spool ${LOGDIR}/add-users.log append
+@add-users.sql ${SYS_PASS};
+
+spool off
+exit
+EOF
+
+./mask-pass "${LOGDIR}/add-users-script.log"
+./mask-pass "${LOGDIR}/add-users.log"
+
+PrintInfo "Creating new users"

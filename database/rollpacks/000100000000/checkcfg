@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# This script will check configuration parameters
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-12
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+function PrintWarning {
+  echo -e "[\033[33m Warning! \033[0m] ${1}"
+}
+
+function SetDefault {
+  if [ -z "$( eval echo \${$1})" ]; then
+    export ${1}="${2}"
+  fi
+}
+
+SetDefault "ORACLE_OWNER" "oracle"
+SetDefault "ORACLE_BASE" "/opt/Oracle"
+SetDefault "ORACLE_HOME" "/opt/Oracle/server"
+SetDefault "ORACLE_SID" "ydata" # ! Not more than 8 characters
+SetDefault "LOGDIR" "${ORACLE_BASE}/logs/${ORACLE_SID}"
+SetDefault "TMP" "${ORACLE_BASE}/tmp/${ORACLE_SID}"
+SetDefault "TMPDIR" "${ORACLE_BASE}/tmp/${ORACLE_SID}"

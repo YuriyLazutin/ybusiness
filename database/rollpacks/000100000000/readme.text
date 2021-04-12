@@ -1,0 +1,15 @@
+Rollpack 000100000000 - .
+This scripts will create initial database for ybusiness
+
+checkcfg              - this script checks parameters from conf file, setup default values and enforce dependent parameters
+install               - installation script
+readme.text           - this file
+mk-dirs               - this script create a nesessary directories
+getpass               - this script request a passwords
+print-info            - this is library function which is used in many scripts
+rollpack-cmn          - macros for internal use, which included user check and setting up ROLLPACK_ID
+add-tablespaces       - this script add tablespaces and corresponding datafile
+add-tablespaces.sql   - this is SQL statements for add-tablespaces script
+add-users             - this script creates new users
+add-users.sql         - this is SQL statements for add-users script
+mask-pass             - this script will mask passwords in log files, if it leak

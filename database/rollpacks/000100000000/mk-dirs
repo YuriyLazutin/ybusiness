@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# This script will create directories for ybusiness software.
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-12
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+
+OLD_UMASK=$( umask )
+umask 0027
+
+mkdir -p "${LOGDIR}"
+PrintInfo "Creating ${LOGDIR}"
+
+umask ${OLD_UMASK}
