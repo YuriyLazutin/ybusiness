@@ -14,7 +14,7 @@ source ./print-info
 source ./getpass "SYS"
 
 if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
-  VAULT_USERS="DVSYS', '${VAULT_OWNER^^}', "
+  VAULT_USERS="'DVSYS', '${VAULT_OWNER^^}', "
   if [ ! -z "${VAULT_ACCMAN^^}" ] && [ "${VAULT_ACCMAN^^}" != "${VAULT_OWNER^^}" ]; then
     VAULT_USERS="${VAULT_USERS}'${VAULT_ACCMAN^^}', "
   fi
