@@ -9,18 +9,26 @@
 #          https://www.paypal.com/paypalme/yuriylazutin
 #          https://www.patreon.com/yuriylazutin
 
-if [ ! -z "SYS_PASS" ]; then
+if [ ! -z "${SYS_PASS}" ]; then
   sed -i "s/${SYS_PASS}/#################/g" "${1}"
 fi
 
-if [ ! -z "SYSTEM_PASS" ]; then
+if [ ! -z "${SYSTEM_PASS}" ]; then
   sed -i "s/${SYSTEM_PASS}/#################/g" "${1}"
 fi
 
-if [ ! -z "SYSMAN_PASS" ]; then
+if [ ! -z "${SYSMAN_PASS}" ]; then
   sed -i "s/${SYSMAN_PASS}/#################/g" "${1}"
 fi
 
-if [ ! -z "DBSNMP_PASS" ]; then
+if [ ! -z "${DBSNMP_PASS}" ]; then
   sed -i "s/${DBSNMP_PASS}/#################/g" "${1}"
+fi
+
+if [ ! -z "$( eval echo "\$${VAULT_OWNER^^}_PASS" )" ]; then
+  sed -i "s/$( eval echo "\$${VAULT_OWNER^^}_PASS" )/#################/g" "${1}"
+fi
+
+if [ ! -z "$( eval echo "\$${VAULT_ACCMAN^^}_PASS" )" ]; then
+  sed -i "s/$( eval echo "\$${VAULT_ACCMAN^^}_PASS" )/#################/g" "${1}"
 fi

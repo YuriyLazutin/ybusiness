@@ -65,12 +65,11 @@ export DB_ENABLE_WAREHOUSE_BUILDER="N"
 export DB_ENABLE_SPATIAL="N"
 # Label Security
 export DB_ENABLE_LABEL_SECURITY="N"
+# Database Vault
+export DB_ENABLE_DATABASE_VAULT="N"
+export VAULT_OWNER="VAULT" # Database Vault user
+export VAULT_ACCMAN="VAULTAM" # Database Vault Account Manager user
 
 # This parts is not fully implemented
 # Database Extensions for .NET
 export DB_ENABLE_EXT_NET="N"
-# Database Vault
-export DB_ENABLE_DATABASE_VAULT="N"
-
-
-

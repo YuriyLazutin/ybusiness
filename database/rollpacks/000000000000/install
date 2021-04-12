@@ -37,6 +37,13 @@ if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
   source ./getpass "DBSNMP" "opt"
 fi
 
+if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
+  source ./getpass "${VAULT_OWNER^^}"
+  if [ ! -z "${VAULT_ACCMAN^^}" ] && [ "${VAULT_ACCMAN^^}" != "${VAULT_OWNER^^}" ]; then
+    source ./getpass "${VAULT_ACCMAN^^}"
+  fi
+fi
+
 ./mk-dirs
 ./profile
 ./listener
@@ -53,6 +60,7 @@ source ./add-multimedia
 source ./add-olap
 source ./add-spatial
 source ./add-ols
+source ./add-vault
 source ./add-emrepo
 source ./add-apex
 source ./add-wbuilder
@@ -60,6 +68,7 @@ source ./add-extnet
 source ./post-add
 source ./archive-log
 source ./mk-spfile
+source ./post-vault
 source ./em-setup
 source ./lock-accounts
 # sudo ./root

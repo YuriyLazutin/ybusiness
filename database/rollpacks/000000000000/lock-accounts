@@ -13,6 +13,13 @@ source ./rollpack-cmn
 source ./print-info
 source ./getpass "SYS"
 
+if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
+  VAULT_USERS="DVSYS', '${VAULT_OWNER^^}', "
+  if [ ! -z "${VAULT_ACCMAN^^}" ] && [ "${VAULT_ACCMAN^^}" != "${VAULT_OWNER^^}" ]; then
+    VAULT_USERS="${VAULT_USERS}'${VAULT_ACCMAN^^}', "
+  fi
+fi
+
 sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/lock-accounts-script.log" <<EOF
 set verify off
 set echo on
@@ -20,7 +27,7 @@ set echo on
 spool ${LOGDIR}/lock-accounts.log append
 
 BEGIN
-  FOR item IN ( SELECT USERNAME FROM DBA_USERS WHERE ACCOUNT_STATUS IN ('OPEN', 'LOCKED', 'EXPIRED') AND USERNAME NOT IN ('SYS', 'SYSTEM') ) LOOP
+  FOR item IN ( SELECT USERNAME FROM DBA_USERS WHERE ACCOUNT_STATUS IN ('OPEN', 'LOCKED', 'EXPIRED') AND USERNAME NOT IN (${VAULT_USERS}'SYS', 'SYSTEM') ) LOOP
     dbms_output.put_line('Locking and Expiring: ' || item.USERNAME);
     execute immediate 'alter user ' || sys.dbms_assert.enquote_name(sys.dbms_assert.schema_name(item.USERNAME), false) || ' password expire account lock';
   END LOOP;

@@ -169,7 +169,7 @@ fi
   # runs:
   #   xdb_protocol.sql
   #   apex.sql
- function EnableApex {
+  function EnableApex {
     SetDefault "DB_ENABLE_APEX" "N"
 
     if [ "${1^^}" == "Y" ]; then
@@ -280,11 +280,50 @@ fi
 
   EnableSpatial "${DB_ENABLE_SPATIAL}"
 
-  SetDefault "DB_ENABLE_LABEL_SECURITY" "N"
+  # runs:
+  #   ${ORACLE_HOME}/rdbms/admin/catols.sql;
+  # After restart database
+  function EnableOLS {
+    SetDefault "DB_ENABLE_LABEL_SECURITY" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      export DB_ENABLE_LABEL_SECURITY="Y"
+    fi
+  }
+
+  EnableOLS "${DB_ENABLE_LABEL_SECURITY}"
+
+  # Needed DB_ENABLE_LABEL_SECURITY="Y"
+  # VAULT_OWNER password needed
+  # VAULT_ACCMAN password needed optionally (if you want separate account for Database Vault Account Manager)
+  # runs:
+  #   datavault.sql
+  # On lockAccount step additionaly we skip accounts 'DVSYS','VAULT','VAULTAM'
+  # On postDBCreation step we additionally executing ${ORACLE_HOME}/rdbms/admin/catmacpost.sql and reconnet to DB.
+ function EnableVault {
+    SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
+
+    if [ "${1^^}" == "Y" ]; then
+      if [ "${DB_ENABLE_LABEL_SECURITY^^}" == "N" ]; then
+        PrintWarning "DB_ENABLE_DATABASE_VAULT=Y, but DB_ENABLE_LABEL_SECURITY=N. Enforce DB_ENABLE_LABEL_SECURITY to Y"
+        EnableOLS "Y"
+      fi
+
+      export DB_ENABLE_DATABASE_VAULT="Y"
+    fi
+  }
+
+  EnableVault "${DB_ENABLE_DATABASE_VAULT}"
+
+  if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
+    # Database Vault user
+    SetDefault "VAULT_OWNER" "VAULT"
+    # Database Vault Account Manager user
+    SetDefault "VAULT_ACCMAN" "VAULTAM"
+  fi
 
   # This parts is not fully implemented
   SetDefault "DB_ENABLE_EXT_NET" "N"
-  SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
 
 if [[ "${PATH}" != *"${ORACLE_HOME}/bin:"* ]]; then
   export PATH="${ORACLE_HOME}/bin:${PATH}"

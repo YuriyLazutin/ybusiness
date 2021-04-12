@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# This script will add Database Vault option into new database
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-12
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+
+if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
+  source ./getpass "SYS"
+  source ./getpass "${VAULT_OWNER^^}"
+  if [ ! -z "${VAULT_ACCMAN^^}" ] && [ "${VAULT_ACCMAN^^}" != "${VAULT_OWNER^^}" ]; then
+    source ./getpass "${VAULT_ACCMAN^^}"
+  fi
+
+  if [ -z "${VAULT_ACCMAN^^}" ]; then
+    VAULT_ACCMAN="${VAULT_OWNER^^}"
+  fi
+
+  if [ "${VAULT_ACCMAN^^}" == "${VAULT_OWNER^^}" ]; then
+    ${VAULT_ACCMAN^^}_PASS="$( eval echo "\$${VAULT_OWNER^^}_PASS" )"
+  fi
+
+  echo "Executing ${ORACLE_HOME}/rdbms/admin/catmac.sql"
+  sqlplus "sys/${SYS_PASS}" as SYSDBA &> "${LOGDIR}/add-vault-script.log" <<EOF
+  set verify off
+  set echo on
+
+  spool ${LOGDIR}/vault.log append
+  @${ORACLE_HOME}/rdbms/admin/catmac.sql SYSAUX TEMP ${SYS_PASS} ${VAULT_OWNER^^} $( eval echo "\$${VAULT_OWNER^^}_PASS" ) ${VAULT_ACCMAN^^} $( eval echo "\$${VAULT_ACCMAN^^}_PASS" );
+  spool off
+
+  exit
+EOF
+
+  ./mask-pass "${LOGDIR}/add-vault-script.log"
+  ./mask-pass "${LOGDIR}/vault.log"
+
+  PrintInfo "Installing Database Vault"
+
+fi
