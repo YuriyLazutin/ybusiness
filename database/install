@@ -19,14 +19,38 @@ if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
   source ./conf
 fi
 
+function GetPasswords {
+  source ./getpass "SYS"
+  source ./getpass "SYSTEM" "opt"
+
+  if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
+    source ./getpass "SYSMAN" "opt"
+    source ./getpass "DBSNMP" "opt"
+  fi
+
+  if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
+    source ./getpass "${VAULT_OWNER^^}"
+    if [ ! -z "${VAULT_ACCMAN^^}" ] && [ "${VAULT_ACCMAN^^}" != "${VAULT_OWNER^^}" ]; then
+      source ./getpass "${VAULT_ACCMAN^^}"
+    fi
+  fi
+}
 
 
 # 000000000000
 echo "Installing empty database (level zero)"
 source "${SRCROOT_DIR}/rollpacks/000000000000/checkcfg"
+GetPasswords
 sudo su - ${ORACLE_OWNER} sh -c "
+export SYS_PASS=\"${SYS_PASS}\"
+export SYSTEM_PASS=\"${SYSTEM_PASS}\"
+export SYSMAN_PASS=\"${SYSMAN_PASS}\"
+export DBSNMP_PASS=\"${DBSNMP_PASS}\"
+export ${VAULT_OWNER^^}_PASS=\"$( eval echo "\$${VAULT_OWNER^^}_PASS" )\"
+export ${VAULT_ACCMAN^^}_PASS=\"$( eval echo "\$${VAULT_ACCMAN^^}_PASS" )\"
 cd \"${SRCROOT_DIR}/rollpacks/000000000000\"
-./install"
+./install
+"
 sudo sh -c "cd \"${SRCROOT_DIR}/rollpacks/000000000000\"
 ./root"
 
@@ -34,9 +58,17 @@ sudo sh -c "cd \"${SRCROOT_DIR}/rollpacks/000000000000\"
 # 000100000000
 echo "Installing initial database"
 source "${SRCROOT_DIR}/rollpacks/000100000000/checkcfg"
+GetPasswords
 sudo su - ${ORACLE_OWNER} sh -c "
+export SYS_PASS=\"${SYS_PASS}\"
+export SYSTEM_PASS=\"${SYSTEM_PASS}\"
+export SYSMAN_PASS=\"${SYSMAN_PASS}\"
+export DBSNMP_PASS=\"${DBSNMP_PASS}\"
+export ${VAULT_OWNER^^}_PASS=\"$( eval echo "\$${VAULT_OWNER^^}_PASS" )\"
+export ${VAULT_ACCMAN^^}_PASS=\"$( eval echo "\$${VAULT_ACCMAN^^}_PASS" )\"
 cd \"${SRCROOT_DIR}/rollpacks/000100000000\"
-./install"
+./install
+"
 
 
 
