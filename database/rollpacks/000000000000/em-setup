@@ -36,3 +36,5 @@ fi
 # Configuring Enterprice Manager
 echo "Configuring Enterprice Manager"
 emca -config dbcontrol db -silent -DB_UNIQUE_NAME "${ORACLE_SID}" -PORT 1521 -EM_HOME "${ORACLE_HOME}" -LISTENER "${LISTENER_NAME}" -SERVICE_NAME "${ORACLE_SID}" -SID "${ORACLE_SID}" -ORACLE_HOME "${ORACLE_HOME}" -HOST "$( hostname )" -LISTENER_OH "${ORACLE_HOME}" -LOG_FILE "${LOGDIR}/emsetup.log" -DBSNMP_PWD "${DBSNMP_PASS}" -SYSMAN_PWD "${SYSMAN_PASS}" -SYS_PWD "${SYS_PASS}"
+
+./mask-pass "${LOGDIR}/emsetup.log"
