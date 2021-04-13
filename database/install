@@ -23,22 +23,19 @@ fi
 
 # 000000000000
 echo "Installing empty database (level zero)"
-cd "${SRCROOT_DIR}/rollpacks/000000000000"
-source ./checkcfg
+source "${SRCROOT_DIR}/rollpacks/000000000000/checkcfg"
+sudo su - ${ORACLE_OWNER} sh -c "
+cd \"${SRCROOT_DIR}/rollpacks/000000000000\"
+./install"
+sudo "${SRCROOT_DIR}/rollpacks/000000000000/root"
 
-sudo su - ${ORACLE_OWNER} ./install
-sudo ./root
-
-cd "${SRCROOT_DIR}"
 
 # 000100000000
 echo "Installing initial database"
-cd "${SRCROOT_DIR}/rollpacks/000100000000"
-source ./checkcfg
-
-sudo su - ${ORACLE_OWNER} ./install
-
-cd "${SRCROOT_DIR}"
+source "${SRCROOT_DIR}/rollpacks/000100000000/checkcfg"
+sudo su - ${ORACLE_OWNER} sh -c "
+cd \"${SRCROOT_DIR}/rollpacks/000100000000\"
+./install"
 
 
 

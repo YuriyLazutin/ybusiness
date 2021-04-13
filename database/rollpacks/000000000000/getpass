@@ -24,7 +24,7 @@ function GetPassword {
 
 function GetOptPassword {
   if [ -z "$( eval echo \${$2})" ]; then
-    read -sp "Enter new password for ${1} (press Enter if it same as SYS): " ${2}
+    read -sp "Please enter password for ${1} (press Enter if it same as SYS): " ${2}
     echo
     if [ ! -z "$( eval echo \${$2})" ]; then
       export ${2}
@@ -40,11 +40,11 @@ function GetOptPassword {
 ##########################
 
 if [ -z "${2}" ]; then
-  GetPassword "${1,,}" "${1^^}_PASS"
+  GetPassword "${1^^}" "${1^^}_PASS"
   if [ -z "$( eval echo \${${1^^}_PASS})" ]; then
-    echo -e "\033[1;31mFailed. Password for ${1,,} is empty.\033[0m"
+    echo -e "\033[1;31mFailed. Password for ${1^^} is empty.\033[0m"
     exit 1
   fi
 elif [ "${2,,}" == "opt" ]; then
-  GetOptPassword "${1,,}" "${1^^}_PASS"
+  GetOptPassword "${1^^}" "${1^^}_PASS"
 fi
