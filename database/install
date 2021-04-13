@@ -27,7 +27,8 @@ source "${SRCROOT_DIR}/rollpacks/000000000000/checkcfg"
 sudo su - ${ORACLE_OWNER} sh -c "
 cd \"${SRCROOT_DIR}/rollpacks/000000000000\"
 ./install"
-sudo "${SRCROOT_DIR}/rollpacks/000000000000/root"
+sudo sh -c "cd \"${SRCROOT_DIR}/rollpacks/000000000000\"
+./root"
 
 
 # 000100000000
