@@ -20,18 +20,18 @@ if [ -z "${YBUSINESS_SETUP_LEVEL}" ]; then
 fi
 
 function GetPasswords {
-  source ./getpass "SYS"
-  source ./getpass "SYSTEM" "opt"
+  source "${SRCROOT_DIR}/rollpacks/000000000000/getpass" "SYS"
+  source "${SRCROOT_DIR}/rollpacks/000000000000/getpass" "SYSTEM" "opt"
 
   if [ "${DB_INSTALL_ENTERPRICE_MANAGER^^}" == "Y" ]; then
-    source ./getpass "SYSMAN" "opt"
-    source ./getpass "DBSNMP" "opt"
+    source "${SRCROOT_DIR}/rollpacks/000000000000/getpass" "SYSMAN" "opt"
+    source "${SRCROOT_DIR}/rollpacks/000000000000/getpass" "DBSNMP" "opt"
   fi
 
   if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
-    source ./getpass "${VAULT_OWNER^^}"
+    source "${SRCROOT_DIR}/rollpacks/000000000000/getpass" "${VAULT_OWNER^^}"
     if [ ! -z "${VAULT_ACCMAN^^}" ] && [ "${VAULT_ACCMAN^^}" != "${VAULT_OWNER^^}" ]; then
-      source ./getpass "${VAULT_ACCMAN^^}"
+      source "${SRCROOT_DIR}/rollpacks/000000000000/getpass" "${VAULT_ACCMAN^^}"
     fi
   fi
 }
