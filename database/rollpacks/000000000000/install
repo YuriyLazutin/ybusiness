@@ -60,15 +60,15 @@ source ./add-multimedia
 source ./add-olap
 source ./add-spatial
 source ./add-ols
-source ./add-vault
 source ./add-emrepo
 source ./add-apex
 source ./add-wbuilder
 source ./add-extnet
+source ./add-vault
+source ./lock-accounts
 source ./post-add
 source ./archive-log
 source ./mk-spfile
-source ./post-vault
 source ./em-setup
-source ./lock-accounts
+source ./post-vault
 # sudo ./root

@@ -32,3 +32,5 @@ LOGDIR="${LOGDIR}/${ROLLPACK_ID}"
 source ./getpass "SYS"
 
 ./mk-dirs
+./add-tablespaces
+./add-users

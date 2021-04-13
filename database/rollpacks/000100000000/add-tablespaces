@@ -18,7 +18,7 @@ set verify off
 set echo on
 
 spool ${LOGDIR}/add-tablespaces.log append
-@add-tablespaces.sql
+@add-tablespaces.sql "${ORACLE_BASE}/oradata/${ORACLE_SID}"
 
 spool off
 exit
