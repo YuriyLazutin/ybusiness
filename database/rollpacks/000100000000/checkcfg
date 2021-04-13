@@ -26,3 +26,9 @@ SetDefault "ORACLE_SID" "ydata" # ! Not more than 8 characters
 SetDefault "LOGDIR" "${ORACLE_BASE}/logs/${ORACLE_SID}"
 SetDefault "TMP" "${ORACLE_BASE}/tmp/${ORACLE_SID}"
 SetDefault "TMPDIR" "${ORACLE_BASE}/tmp/${ORACLE_SID}"
+
+SetDefault "DB_ENABLE_DATABASE_VAULT" "N"
+if [ "${DB_ENABLE_DATABASE_VAULT^^}" == "Y" ]; then
+  SetDefault "VAULT_OWNER" "VAULT"
+  SetDefault "VAULT_ACCMAN" "VAULTAM"
+fi
