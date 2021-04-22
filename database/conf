@@ -37,7 +37,7 @@ export DB_PGA_AGGREGATE_TARGET="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
 # This option will allow you to manage your database via web interface
 export DB_INSTALL_ENTERPRICE_MANAGER="N"
 # Enables Optimizer statistics collection and proactive advisor reports
-export DB_ENABLE_AUTOMATIC_MAINTENANCE_TASKS="N"
+export DB_ENABLE_AUTOMATIC_MAINTENANCE_TASKS="Y"
 # Enable fast recovery area
 export DB_ENABLE_FAST_RECOVERY_AREA="N"
 export DB_FAST_RECOVERY_AREA_SIZE="4294967296" # 4 Gb (4 * 1024 * 1024 * 1024)
