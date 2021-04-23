@@ -18,6 +18,7 @@ set verify off
 set echo on
 spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.gForm.ddl.sql;
+@BASE.gList.ddl.sql;
 spool off
 exit
 EOF
