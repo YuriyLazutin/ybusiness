@@ -20,6 +20,8 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.gForm.ddl.sql;
 @BASE.gList.ddl.sql;
 @BASE.gTree.ddl.sql;
+@BASE.primary_filter.ddl.sql;
+@BASE.secondary_filter.ddl.sql;
 spool off
 exit
 EOF
