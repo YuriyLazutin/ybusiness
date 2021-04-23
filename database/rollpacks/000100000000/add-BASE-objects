@@ -25,6 +25,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.class.ddl.sql;
 @BASE.widget.ddl.sql;
 @BASE.description.ddl.sql;
+@BASE.property.ddl.sql;
 spool off
 exit
 EOF
