@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# This script will create database objects for user BASE
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-apr-23
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+source ./getpass "BASE"
+
+sqlplus "BASE/${BASE_PASS}" &> "${LOGDIR}/add-BASE-objects-script.log" <<EOF
+set verify off
+set echo on
+spool ${LOGDIR}/add-BASE-objects.log append
+@BASE.gForm.ddl.sql;
+spool off
+exit
+EOF
+
+
+./mask-pass "${LOGDIR}/add-BASE-objects-script.log"
+./mask-pass "${LOGDIR}/add-BASE-objects.log"
+
+PrintInfo "Creating BASE objects"

@@ -12,3 +12,13 @@
 if [ ! -z "${SYS_PASS}" ]; then
   sed -i "s/${SYS_PASS}/#################/g" "${1}"
 fi
+
+if [ ! -z "${BASE_PASS}" ]; then
+  sed -i "s/${BASE_PASS}/#################/g" "${1}"
+fi
+if [ ! -z "${COMMON_PASS}" ]; then
+  sed -i "s/${COMMON_PASS}/#################/g" "${1}"
+fi
+if [ ! -z "${DEV_PASS}" ]; then
+  sed -i "s/${DEV_PASS}/#################/g" "${1}"
+fi

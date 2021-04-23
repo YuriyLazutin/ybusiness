@@ -34,3 +34,4 @@ source ./getpass "SYS"
 ./mk-dirs
 ./add-tablespaces
 ./add-users
+./add-BASE-objects

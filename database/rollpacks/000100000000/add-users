@@ -58,3 +58,8 @@ EOF
 ./mask-pass "${LOGDIR}/add-users.log"
 
 PrintInfo "Creating new users"
+
+# Exporting new users passwords
+export BASE_PASS="${SYS_PASS}"
+export COMMON_PASS="${SYS_PASS}"
+export DEV_PASS="${SYS_PASS}"
