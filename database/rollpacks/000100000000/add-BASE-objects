@@ -23,6 +23,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.primary_filter.ddl.sql;
 @BASE.secondary_filter.ddl.sql;
 @BASE.class.ddl.sql;
+@BASE.widget.ddl.sql;
 spool off
 exit
 EOF
