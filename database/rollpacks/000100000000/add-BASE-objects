@@ -28,6 +28,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.property.ddl.sql;
 @BASE.text_translation.ddl.sql;
 @BASE.clob_translation.ddl.sql;
+@BASE.solution.ddl.sql;
 spool off
 exit
 EOF
