@@ -101,3 +101,21 @@ ALTER TABLE Solution
 ALTER TABLE Solution
   ADD CONSTRAINT SOLUTION_C6
   CHECK (Protection IN ('Y', 'N', 'X'));
+/
+-- Create/Recreate triggers
+CREATE OR REPLACE TRIGGER Solution_AIU AFTER INSERT OR UPDATE ON Solution FOR EACH ROW
+DECLARE
+  -- local variables here
+  v_id INTEGER;
+BEGIN
+  NULL;
+END Solution_AIU;
+/
+CREATE OR REPLACE TRIGGER Solution_BD BEFORE DELETE ON Solution FOR EACH ROW
+DECLARE
+  -- local variables here
+  v_id INTEGER;
+BEGIN
+  NULL;
+END solution_bd;
+/
