@@ -32,6 +32,15 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.subset.ddl.sql;
 
 @BASE.sequences.ddl.sql;
+
+@BASE.tIntegerTable.ddl.sql;
+@BASE.czVector.typ;
+@BASE.czStack.typ;
+@BASE.cComplexNumber.typ;
+@BASE.cz2DMatrix.typ;
+@BASE.cSQLQuery.typ;
+@BASE.cRobot.typ;
+
 spool off
 exit
 EOF
