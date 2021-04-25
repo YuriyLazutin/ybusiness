@@ -30,6 +30,8 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.clob_translation.ddl.sql;
 @BASE.solution.ddl.sql;
 @BASE.subset.ddl.sql;
+
+@BASE.sequences.ddl.sql;
 spool off
 exit
 EOF
