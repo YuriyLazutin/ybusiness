@@ -46,6 +46,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iDescription.spc;
 @BASE.igForm.spc;
 @BASE.igList.spc;
+@BASE.igTree.spc;
 
 spool off
 exit
