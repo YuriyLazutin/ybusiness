@@ -42,6 +42,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.cRobot.typ;
 
 @BASE.iBase.spc;
+@BASE.iClass.spc;
 
 spool off
 exit
