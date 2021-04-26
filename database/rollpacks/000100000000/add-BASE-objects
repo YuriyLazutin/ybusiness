@@ -43,6 +43,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 
 @BASE.iBase.spc;
 @BASE.iClass.spc;
+@BASE.iDescription.spc;
 
 spool off
 exit
