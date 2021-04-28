@@ -17,5 +17,7 @@ umask 0027
 
 mkdir -p "${LOGDIR}"
 PrintInfo "Creating ${LOGDIR}"
+mkdir -p "${ORACLE_BASE}/oradata/${ORACLE_SID}/lib"
+PrintInfo "Creating ${ORACLE_BASE}/oradata/${ORACLE_SID}/lib"
 
 umask ${OLD_UMASK}

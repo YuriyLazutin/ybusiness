@@ -41,6 +41,8 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.cSQLQuery.typ;
 @BASE.cRobot.typ;
 
+@BASE.libc_l.ddl "${ORACLE_BASE}/oradata/${ORACLE_SID}";
+
 @BASE.iBase.spc;
 @BASE.iClass.spc;
 @BASE.iDescription.spc;
