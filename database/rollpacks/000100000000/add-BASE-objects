@@ -52,6 +52,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iPrimary_Filter.spc;
 @BASE.iSecondary_Filter.spc;
 @BASE.iSolution.spc;
+@BASE.iProperty.spc;
 
 spool off
 exit
