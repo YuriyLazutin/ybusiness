@@ -51,6 +51,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iCLOB_Translation.spc;
 @BASE.iPrimary_Filter.spc;
 @BASE.iSecondary_Filter.spc;
+@BASE.iSolution.spc;
 
 spool off
 exit
