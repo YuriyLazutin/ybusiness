@@ -58,6 +58,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iSubset.spc;
 @BASE.iWidget.spc;
 @BASE.math_utl.spc;
+@BASE.random_utl.spc;
 
 spool off
 exit
