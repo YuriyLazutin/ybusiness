@@ -55,6 +55,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iProperty.spc;
 @BASE.iSubset.spc;
 @BASE.iWidget.spc;
+@BASE.math_utl.spc;
 
 spool off
 exit
