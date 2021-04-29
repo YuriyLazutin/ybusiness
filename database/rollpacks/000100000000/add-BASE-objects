@@ -62,6 +62,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 
 @BASE.iClass.bdy;
 @BASE.iDescription.bdy;
+@BASE.igForm.bdy;
 
 spool off
 exit
