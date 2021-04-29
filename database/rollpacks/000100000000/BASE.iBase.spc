@@ -19,11 +19,11 @@ CREATE OR REPLACE PACKAGE iBase AS
   ) RETURN Class.id%TYPE;
 
 PROCEDURE RegisterClass(
-     psClassName        IN  VARCHAR2
-    ,psOwner            IN  VARCHAR2 DEFAULT NULL
-    ,psTable            IN  VARCHAR2
-    ,psInterfacePackage IN  VARCHAR2 DEFAULT NULL
-    ,psDescription      IN  VARCHAR2 DEFAULT NULL
+     psClass_Name        IN  VARCHAR2
+    ,psOwner             IN  VARCHAR2 DEFAULT NULL
+    ,psTable             IN  VARCHAR2
+    ,psInterface_Package IN  VARCHAR2 DEFAULT NULL
+    ,psDescription       IN  VARCHAR2 DEFAULT NULL
   );
 
 PROCEDURE UnregisterClass(
