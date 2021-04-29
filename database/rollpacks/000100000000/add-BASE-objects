@@ -61,6 +61,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.random_utl.spc;
 
 @BASE.iClass.bdy;
+@BASE.iDescription.bdy;
 
 spool off
 exit
