@@ -68,6 +68,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iText_Translation.bdy;
 @BASE.iCLOB_Translation.bdy;
 @BASE.iPrimary_Filter.bdy;
+@BASE.iSecondary_Filter.bdy;
 
 spool off
 exit
