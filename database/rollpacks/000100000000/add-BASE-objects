@@ -66,6 +66,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.igList.bdy;
 @BASE.igTree.bdy;
 @BASE.iText_Translation.bdy;
+@BASE.iCLOB_Translation.bdy;
 
 spool off
 exit
