@@ -76,6 +76,8 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.math_utl.bdy;
 @BASE.random_utl.bdy;
 
+@BASE.views.sql;
+
 spool off
 exit
 EOF
