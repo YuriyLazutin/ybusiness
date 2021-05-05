@@ -35,3 +35,4 @@ source ./getpass "SYS"
 ./add-tablespaces
 ./add-users
 ./add-BASE-objects
+./add-DEV-objects

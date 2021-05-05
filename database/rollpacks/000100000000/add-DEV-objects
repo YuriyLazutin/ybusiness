@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# This script will create database objects for user DEV
+# Author: Yuriy Lazutin
+# Site: lazutin.info
+# Location: Tomsk, Siberia
+# Creation: 2021-may-05
+# Donates:
+#          https://www.paypal.com/paypalme/yuriylazutin
+#          https://www.patreon.com/yuriylazutin
+
+source ./rollpack-cmn
+source ./print-info
+source ./getpass "DEV"
+
+sqlplus "DEV/${DEV_PASS}" &> "${LOGDIR}/add-DEV-objects-script.log" <<EOF
+set verify off
+set echo on
+spool ${LOGDIR}/add-DEV-objects.log append
+
+@DEV.sql_clob.ddl.sql;
+
+spool off
+exit
+EOF
+
+
+./mask-pass "${LOGDIR}/add-DEV-objects-script.log"
+./mask-pass "${LOGDIR}/add-DEV-objects.log"
+
+PrintInfo "Creating DEV objects"
