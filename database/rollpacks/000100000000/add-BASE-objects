@@ -73,6 +73,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iProperty.bdy;
 @BASE.iSubset.bdy;
 @BASE.iWidget.bdy;
+@BASE.math_utl.bdy;
 
 spool off
 exit
