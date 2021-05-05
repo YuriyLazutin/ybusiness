@@ -20,6 +20,8 @@ spool ${LOGDIR}/add-DEV-objects.log append
 
 @DEV.sql_clob.ddl.sql;
 
+@DEV.sequences.ddl.sql;
+
 spool off
 exit
 EOF
