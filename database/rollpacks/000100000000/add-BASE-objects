@@ -74,6 +74,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iSubset.bdy;
 @BASE.iWidget.bdy;
 @BASE.math_utl.bdy;
+@BASE.random_utl.bdy;
 
 spool off
 exit
