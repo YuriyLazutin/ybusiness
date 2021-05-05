@@ -71,6 +71,7 @@ spool ${LOGDIR}/add-BASE-objects.log append
 @BASE.iSecondary_Filter.bdy;
 @BASE.iSolution.bdy;
 @BASE.iProperty.bdy;
+@BASE.iSubset.bdy;
 
 spool off
 exit
