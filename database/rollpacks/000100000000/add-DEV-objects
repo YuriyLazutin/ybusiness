@@ -22,6 +22,10 @@ spool ${LOGDIR}/add-DEV-objects.log append
 
 @DEV.sequences.ddl.sql;
 
+@DEV.Debug.spc;
+
+@DEV.Debug.bdy;
+
 spool off
 exit
 EOF
