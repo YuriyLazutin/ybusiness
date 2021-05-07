@@ -23,8 +23,10 @@ spool ${LOGDIR}/add-DEV-objects.log append
 @DEV.sequences.ddl.sql;
 
 @DEV.Debug.spc;
+@DEV.Generators.spc;
 
 @DEV.Debug.bdy;
+@DEV.Generators.bdy;
 
 spool off
 exit
